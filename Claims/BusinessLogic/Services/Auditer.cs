@@ -1,4 +1,7 @@
-﻿namespace Claims.Auditing
+﻿using Claims.BusinessLogic.Entities.Auditing;
+using Claims.Database;
+
+namespace Claims.BusinessLogic.Services
 {
     public class Auditer
     {
