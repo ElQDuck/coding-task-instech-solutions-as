@@ -22,12 +22,12 @@ namespace Claims.Database.Repositories
             return await _context.GetClaimAsync(id);
         }
 
-        public async Task AddItemAsync(Claim item)
+        public async Task AddClaimAsync(Claim item)
         {
             await _context.AddItemAsync(item);
         }
 
-        public async Task DeleteItemAsync(string id)
+        public async Task DeleteClaimAsync(string id)
         {
             await _context.DeleteItemAsync(id);
         }

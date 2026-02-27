@@ -6,7 +6,7 @@ namespace Claims.BusinessLogic.Interfaces
     {
         Task<IEnumerable<Cover>> GetCoversAsync();
         Task<Cover> GetCoverAsync(string id);
-        Task AddItemAsync(Cover item);
-        Task DeleteItemAsync(string id);
+        Task AddCoverAsync(Cover item);
+        Task DeleteCoverAsync(string id);
     }
 }

@@ -27,7 +27,7 @@ namespace Claims.BusinessLogic.Services
         public async Task<Claim> CreateClaimAsync(Claim claim)
         {
             claim.Id = Guid.NewGuid().ToString();
-            await _repository.AddItemAsync(claim);
+            await _repository.AddClaimAsync(claim);
             _auditer.AuditClaim(claim.Id, "POST");
             return claim;
         }
@@ -35,7 +35,7 @@ namespace Claims.BusinessLogic.Services
         public async Task DeleteClaimAsync(string id)
         {
             _auditer.AuditClaim(id, "DELETE");
-            await _repository.DeleteItemAsync(id);
+            await _repository.DeleteClaimAsync(id);
         }
     }
 }

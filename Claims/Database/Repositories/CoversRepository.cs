@@ -23,13 +23,13 @@ namespace Claims.Database.Repositories
             return await _context.Covers.Where(cover => cover.Id == id).SingleOrDefaultAsync();
         }
 
-        public async Task AddItemAsync(Cover item)
+        public async Task AddCoverAsync(Cover item)
         {
             _context.Covers.Add(item);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteItemAsync(string id)
+        public async Task DeleteCoverAsync(string id)
         {
             var cover = await GetCoverAsync(id);
             if (cover is not null)

@@ -62,7 +62,7 @@ namespace Claims.BusinessLogic.Services
         {
             cover.Id = Guid.NewGuid().ToString();
             cover.Premium = ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
-            await _repository.AddItemAsync(cover);
+            await _repository.AddCoverAsync(cover);
             _auditer.AuditCover(cover.Id, "POST");
             return cover;
         }
@@ -70,7 +70,7 @@ namespace Claims.BusinessLogic.Services
         public async Task DeleteCoverAsync(string id)
         {
             _auditer.AuditCover(id, "DELETE");
-            await _repository.DeleteItemAsync(id);
+            await _repository.DeleteCoverAsync(id);
         }
     }
 }

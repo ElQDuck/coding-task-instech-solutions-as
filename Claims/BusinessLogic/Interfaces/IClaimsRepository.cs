@@ -6,7 +6,7 @@ namespace Claims.BusinessLogic.Interfaces
     {
         Task<IEnumerable<Claim>> GetClaimsAsync();
         Task<Claim> GetClaimAsync(string id);
-        Task AddItemAsync(Claim item);
-        Task DeleteItemAsync(string id);
+        Task AddClaimAsync(Claim item);
+        Task DeleteClaimAsync(string id);
     }
 }
