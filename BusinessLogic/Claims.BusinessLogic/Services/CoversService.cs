@@ -14,6 +14,33 @@ namespace Claims.BusinessLogic.Services
             _auditer = auditer;
         }
 
+        public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
+        {
+            return await _repository.GetCoversAsync();
+        }
+
+        public async Task<Result<Cover>> GetCoverAsync(string id)
+        {
+            return await _repository.GetCoverAsync(id);
+        }
+
+        public async Task<Result<Cover>> CreateCoverAsync(Cover cover)
+        {
+            cover.Id = Guid.NewGuid().ToString();
+            cover.Premium = ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
+            await _repository.AddCoverAsync(cover);
+            // TODO: Check if this can be done in businessLogic
+            _auditer.AuditCover(cover.Id, "POST");
+            return cover;
+        }
+
+        public async Task<Result> DeleteCoverAsync(string id)
+        {
+            // TODO: Why is this here?
+            //_auditer.AuditCover(id, "DELETE");
+            return await _repository.DeleteCoverAsync(id);
+        }
+
         public decimal ComputePremium(DateTime startDate, DateTime endDate, CoverType coverType)
         {
             var multiplier = 1.3m;
@@ -46,31 +73,6 @@ namespace Claims.BusinessLogic.Services
             }
 
             return totalPremium;
-        }
-
-        public async Task<IEnumerable<Cover>> GetCoversAsync()
-        {
-            return await _repository.GetCoversAsync();
-        }
-
-        public async Task<Cover> GetCoverAsync(string id)
-        {
-            return await _repository.GetCoverAsync(id);
-        }
-
-        public async Task<Cover> CreateCoverAsync(Cover cover)
-        {
-            cover.Id = Guid.NewGuid().ToString();
-            cover.Premium = ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
-            await _repository.AddCoverAsync(cover);
-            _auditer.AuditCover(cover.Id, "POST");
-            return cover;
-        }
-
-        public async Task DeleteCoverAsync(string id)
-        {
-            _auditer.AuditCover(id, "DELETE");
-            await _repository.DeleteCoverAsync(id);
         }
     }
 }

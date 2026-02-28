@@ -17,35 +17,51 @@ public class CoversController : ControllerBase
     }
 
     [HttpPost("Cover/compute")]
-    public ActionResult ComputePremium(DateTime startDate, DateTime endDate, CoverType coverType)
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> ComputePremiumAsync(DateTime startDate, DateTime endDate, CoverType coverType)
     {
         return Ok(_coversService.ComputePremium(startDate, endDate, coverType));
     }
 
     [HttpGet("Covers")]
-    public async Task<ActionResult<IEnumerable<Cover>>> GetAsync()
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Cover>))]
+    public async Task<ActionResult<IEnumerable<Cover>>> GetCoversAsync()
     {
-        var results = await _coversService.GetCoversAsync();
-        return Ok(results);
+        var result = await _coversService.GetCoversAsync();
+        // TODO: Better error print out. To much information for user. Security concerns.
+        result.EnsureSuccess();
+        return Ok(result.Value);
     }
 
     [HttpGet("Cover/{id}")]
-    public async Task<ActionResult<Cover>> GetAsync(string id)
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Cover))]
+    public async Task<ActionResult<Cover>> GetCoverAsync(string id)
     {
-        var cover = await _coversService.GetCoverAsync(id);
-        return Ok(cover);
+        var result = await _coversService.GetCoverAsync(id);
+        result.EnsureSuccess();
+        return Ok(result.Value);
     }
 
     [HttpPost("Cover")]
-    public async Task<ActionResult> CreateAsync(Cover cover)
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Cover))]
+    public async Task<ActionResult> CreateCoverAsync(Cover cover)
     {
-        var createdCover = await _coversService.CreateCoverAsync(cover);
-        return Ok(createdCover);
+        var result = await _coversService.CreateCoverAsync(cover);
+        result.EnsureSuccess();
+        return Ok(result.Value);
     }
 
     [HttpDelete("Cover/{id}")]
-    public async Task DeleteAsync(string id)
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> DeleteCoverAsync(string id)
     {
-        await _coversService.DeleteCoverAsync(id);
+        var result = await _coversService.DeleteCoverAsync(id);
+        result.EnsureSuccess();
+        return Ok();
     }
 }

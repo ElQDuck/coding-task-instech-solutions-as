@@ -13,30 +13,24 @@ namespace Claims.Database.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Cover>> GetCoversAsync()
+        public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
         {
-            return await _context.Covers.ToListAsync();
+            return await _context.GetCoversAsync();
         }
 
-        public async Task<Cover> GetCoverAsync(string id)
+        public async Task<Result<Cover>> GetCoverAsync(string id)
         {
-            return await _context.Covers.Where(cover => cover.Id == id).SingleOrDefaultAsync();
+            return await _context.GetCoverAsync(id);
         }
 
-        public async Task AddCoverAsync(Cover item)
+        public async Task<Result<Cover>> AddCoverAsync(Cover item)
         {
-            _context.Covers.Add(item);
-            await _context.SaveChangesAsync();
+            return await _context.AddCoverAsync(item);
         }
 
-        public async Task DeleteCoverAsync(string id)
+        public async Task<Result> DeleteCoverAsync(string id)
         {
-            var cover = await GetCoverAsync(id);
-            if (cover is not null)
-            {
-                _context.Covers.Remove(cover);
-                await _context.SaveChangesAsync();
-            }
+            return await _context.DeleteCoverAsync(id);
         }
     }
 }

@@ -8,7 +8,8 @@ namespace Claims.Database.Repositories
     {
 
         private DbSet<Claim> Claims { get; init; }
-        public DbSet<Cover> Covers { get; init; }
+        // TODO: Why was this public?
+        private DbSet<Cover> Covers { get; init; }
 
         public DbContext(DbContextOptions options)
             : base(options)
@@ -28,6 +29,12 @@ namespace Claims.Database.Repositories
             return Result.FromSuccess(claims.AsEnumerable());
         }
 
+        public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
+        {
+            var covers = await Covers.ToListAsync();
+            return Result.FromSuccess(covers.AsEnumerable());
+        }
+
         public async Task<Result<Claim>> GetClaimAsync(string id)
         {
             var result =  await Claims
@@ -43,14 +50,36 @@ namespace Claims.Database.Repositories
             return Result.FromException<Claim>(exception);
         }
 
-        public async Task<Result<Claim>> AddItemAsync(Claim item)
+        public async Task<Result<Cover>> GetCoverAsync(string id)
+        {
+            var result =  await Covers
+                .Where(cover => cover.Id == id)
+                .SingleOrDefaultAsync();
+            if (result is not null)
+            {
+                return Result.FromSuccess(result);
+                
+            }
+            // TODO: Move messages into resources.
+            var exception = new Exception($"Cover with id '{id}' not found");
+            return Result.FromException<Cover>(exception);
+        }
+
+        public async Task<Result<Claim>> AddClaimAsync(Claim item)
         {
             Claims.Add(item);
             await SaveChangesAsync();
             return Result.FromSuccess(item);
         }
 
-        public async Task<Result> DeleteItemAsync(string id)
+        public async Task<Result<Cover>> AddCoverAsync(Cover item)
+        {
+            Covers.Add(item);
+            await SaveChangesAsync();
+            return Result.FromSuccess(item);
+        }
+
+        public async Task<Result> DeleteClaimAsync(string id)
         {
             var result = await GetClaimAsync(id);
             if (result.IsSuccess)
@@ -62,6 +91,21 @@ namespace Claims.Database.Repositories
             }
             // TODO: Move messages into resources.
             var exception = new Exception($"Claim with id '{id}' could not be deleted.");
+            return Result.FromException(exception);
+        }
+
+        public async Task<Result> DeleteCoverAsync(string id)
+        {
+            var result = await GetCoverAsync(id);
+            if (result.IsSuccess)
+            {
+                Covers.Remove(result.Value);
+                // TODO: Probably add try catch for better result message.
+                await SaveChangesAsync();
+                return Result.FromSuccess();
+            }
+            // TODO: Move messages into resources.
+            var exception = new Exception($"Cover with id '{id}' could not be deleted.");
             return Result.FromException(exception);
         }
     }
