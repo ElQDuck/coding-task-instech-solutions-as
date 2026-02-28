@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
 using Claims.BusinessLogic.Entities;
 using Claims.BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +30,6 @@ namespace Claims.API.Controllers
         [HttpGet("{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Claim))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetClaimAsync(string id)
         {
             var result = await _claimsService.GetClaimAsync(id);
@@ -52,7 +50,6 @@ namespace Claims.API.Controllers
         [HttpDelete("{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteClaimAsync([FromRoute]string id)
         {
             var result = await _claimsService.DeleteClaimAsync(id);
