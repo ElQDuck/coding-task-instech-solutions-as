@@ -14,7 +14,6 @@ namespace Claims.BusinessLogic
             // Register BusinessLogic services
             services.AddScoped<Interfaces.IClaimsService, Services.ClaimsService>();
             services.AddScoped<Interfaces.ICoversService, Services.CoversService>();
-            services.AddScoped<Services.Auditer>();
 
             // Scan for Database assembly and register Repositories
             // We assume the Database assembly is in the same directory as the executing assembly

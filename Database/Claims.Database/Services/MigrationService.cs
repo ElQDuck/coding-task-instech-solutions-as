@@ -1,4 +1,5 @@
 using Claims.BusinessLogic.Interfaces;
+using Claims.Database.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Claims.Database.Repositories

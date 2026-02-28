@@ -1,7 +1,7 @@
-﻿using Claims.BusinessLogic.Entities.Auditing;
+﻿using Claims.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Claims.Database.Repositories
+namespace Claims.Database.Context
 {
     public class AuditContext : Microsoft.EntityFrameworkCore.DbContext
     {

@@ -2,7 +2,7 @@ using Claims.BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.EntityFrameworkCore.Extensions;
 
-namespace Claims.Database.Repositories
+namespace Claims.Database.Context
 {
     public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {

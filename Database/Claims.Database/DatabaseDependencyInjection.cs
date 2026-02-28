@@ -1,10 +1,11 @@
 using Claims.BusinessLogic.Interfaces;
+using Claims.Database.Auditing;
+using Claims.Database.Context;
 using Claims.Database.Repositories;
-using Claims.Database.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
-using DbContext = Claims.Database.Repositories.DbContext;
+using DbContext = Claims.Database.Context.DbContext;
 
 namespace Claims.Database
 {

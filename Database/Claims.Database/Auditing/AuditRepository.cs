@@ -1,7 +1,7 @@
-using Claims.BusinessLogic.Entities.Auditing;
-using Claims.BusinessLogic.Interfaces;
+using Claims.Database.Context;
+using Claims.Database.Entities;
 
-namespace Claims.Database.Repositories.Repositories
+namespace Claims.Database.Auditing
 {
     public class AuditRepository : IAuditRepository
     {

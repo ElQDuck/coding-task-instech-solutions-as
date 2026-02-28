@@ -6,12 +6,10 @@ namespace Claims.BusinessLogic.Services
     public class ClaimsService : IClaimsService
     {
         private readonly IClaimsRepository _repository;
-        private readonly Auditer _auditer;
 
-        public ClaimsService(IClaimsRepository repository, Auditer auditer)
+        public ClaimsService(IClaimsRepository repository)
         {
             _repository = repository;
-            _auditer = auditer;
         }
 
         public async Task<Result<IEnumerable<Claim>>> GetClaimsAsync()
@@ -28,7 +26,6 @@ namespace Claims.BusinessLogic.Services
         {
             claim.Id = Guid.NewGuid().ToString();
             await _repository.AddClaimAsync(claim);
-            _auditer.AuditClaim(claim.Id, "POST");
             return claim;
         }
 

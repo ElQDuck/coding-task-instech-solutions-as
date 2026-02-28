@@ -1,4 +1,4 @@
-﻿namespace Claims.BusinessLogic.Entities.Auditing
+﻿namespace Claims.Database.Entities
 {
     public class CoverAudit
     {

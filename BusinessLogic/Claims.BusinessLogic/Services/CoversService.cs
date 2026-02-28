@@ -6,12 +6,10 @@ namespace Claims.BusinessLogic.Services
     public class CoversService : ICoversService
     {
         private readonly ICoversRepository _repository;
-        private readonly Auditer _auditer;
 
-        public CoversService(ICoversRepository repository, Auditer auditer)
+        public CoversService(ICoversRepository repository)
         {
             _repository = repository;
-            _auditer = auditer;
         }
 
         public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
@@ -29,8 +27,6 @@ namespace Claims.BusinessLogic.Services
             cover.Id = Guid.NewGuid().ToString();
             cover.Premium = ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
             await _repository.AddCoverAsync(cover);
-            // TODO: Check if this can be done in businessLogic
-            _auditer.AuditCover(cover.Id, "POST");
             return cover;
         }
 

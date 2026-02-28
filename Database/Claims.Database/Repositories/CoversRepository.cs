@@ -1,8 +1,8 @@
 using Claims.BusinessLogic.Entities;
 using Claims.BusinessLogic.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using DbContext = Claims.Database.Context.DbContext;
 
-namespace Claims.Database.Repositories.Repositories
+namespace Claims.Database.Repositories
 {
     public class CoversRepository : ICoversRepository
     {
