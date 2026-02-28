@@ -16,6 +16,7 @@ Insify.War.Terms.Api/appsettings.override.json
 *.userprefs
 *_log.txt
 # Build results
+bin\\Debug/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
