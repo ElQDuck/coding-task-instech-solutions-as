@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Claims.BusinessLogic.Entities;
 using Claims.BusinessLogic.Interfaces;
 using DbContext = Claims.Database.Context.DbContext;
@@ -15,22 +16,39 @@ namespace Claims.Database.Repositories
 
         public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
         {
-            return await _context.GetCoversAsync();
+            var covers = await _context.Covers.ToListAsync();
+            return Result.FromSuccess(covers.AsEnumerable());
         }
 
         public async Task<Result<Cover>> GetCoverAsync(string id)
         {
-            return await _context.GetCoverAsync(id);
+            var result = await _context.Covers
+                .Where(cover => cover.Id == id)
+                .SingleOrDefaultAsync();
+            if (result is not null)
+            {
+                return Result.FromSuccess(result);
+            }
+            return Result.FromException<Cover>(new Exception($"Cover with id '{id}' not found"));
         }
 
         public async Task<Result<Cover>> AddCoverAsync(Cover item)
         {
-            return await _context.AddCoverAsync(item);
+            _context.Covers.Add(item);
+            await _context.SaveChangesAsync();
+            return Result.FromSuccess(item);
         }
 
         public async Task<Result> DeleteCoverAsync(string id)
         {
-            return await _context.DeleteCoverAsync(id);
+            var result = await GetCoverAsync(id);
+            if (result.IsSuccess)
+            {
+                _context.Covers.Remove(result.Value);
+                await _context.SaveChangesAsync();
+                return Result.FromSuccess();
+            }
+            return Result.FromException(new Exception($"Cover with id '{id}' could not be deleted."));
         }
     }
 }

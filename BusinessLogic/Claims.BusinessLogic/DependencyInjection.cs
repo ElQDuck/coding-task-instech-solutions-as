@@ -14,6 +14,12 @@ namespace Claims.BusinessLogic
             // Register BusinessLogic services
             services.AddScoped<Interfaces.IClaimsService, Services.ClaimsService>();
             services.AddScoped<Interfaces.ICoversService, Services.CoversService>();
+            services.AddScoped<Interfaces.IPremiumCalculationService, Services.PremiumCalculationService>();
+
+            // Register Premium Calculation Strategies
+            services.AddScoped<Interfaces.ICoverPremiumStrategy, Services.Strategies.YachtPremiumStrategy>();
+            services.AddScoped<Interfaces.ICoverPremiumStrategy, Services.Strategies.PassengerShipPremiumStrategy>();
+            services.AddScoped<Interfaces.ICoverPremiumStrategy, Services.Strategies.TankerPremiumStrategy>();
 
             // Scan for Database assembly and register Repositories
             // We assume the Database assembly is in the same directory as the executing assembly

@@ -7,9 +7,8 @@ namespace Claims.Database.Context
     public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
 
-        private DbSet<Claim> Claims { get; init; }
-        // TODO: Why was this public?
-        private DbSet<Cover> Covers { get; init; }
+        public DbSet<Claim> Claims { get; init; }
+        public DbSet<Cover> Covers { get; init; }
 
         public DbContext(DbContextOptions options)
             : base(options)

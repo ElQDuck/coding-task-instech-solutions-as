@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Claims.BusinessLogic.Entities;
 using Claims.BusinessLogic.Interfaces;
 using DbContext = Claims.Database.Context.DbContext;
@@ -15,22 +16,39 @@ namespace Claims.Database.Repositories
 
         public async Task<Result<IEnumerable<Claim>>> GetClaimsAsync()
         {
-            return await _context.GetClaimsAsync();
+            var claims = await _context.Claims.ToListAsync();
+            return Result.FromSuccess(claims.AsEnumerable());
         }
 
         public async Task<Result<Claim>> GetClaimAsync(string id)
         {
-            return await _context.GetClaimAsync(id);
+            var result = await _context.Claims
+                .Where(claim => claim.Id == id)
+                .SingleOrDefaultAsync();
+            if (result is not null)
+            {
+                return Result.FromSuccess(result);
+            }
+            return Result.FromException<Claim>(new Exception($"Claim with id '{id}' not found"));
         }
 
         public async Task<Result<Claim>> AddClaimAsync(Claim item)
         {
-            return await _context.AddClaimAsync(item);
+            _context.Claims.Add(item);
+            await _context.SaveChangesAsync();
+            return Result.FromSuccess(item);
         }
 
         public async Task<Result> DeleteClaimAsync(string id)
         {
-            return await _context.DeleteClaimAsync(id);
+            var result = await GetClaimAsync(id);
+            if (result.IsSuccess)
+            {
+                _context.Claims.Remove(result.Value);
+                await _context.SaveChangesAsync();
+                return Result.FromSuccess();
+            }
+            return Result.FromException(new Exception($"Claim with id '{id}' could not be deleted."));
         }
     }
 }

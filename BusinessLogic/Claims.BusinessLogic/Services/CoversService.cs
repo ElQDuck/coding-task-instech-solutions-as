@@ -6,10 +6,12 @@ namespace Claims.BusinessLogic.Services
     public class CoversService : ICoversService
     {
         private readonly ICoversRepository _repository;
+        private readonly IPremiumCalculationService _premiumCalculationService;
 
-        public CoversService(ICoversRepository repository)
+        public CoversService(ICoversRepository repository, IPremiumCalculationService premiumCalculationService)
         {
             _repository = repository;
+            _premiumCalculationService = premiumCalculationService;
         }
 
         public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
@@ -25,50 +27,14 @@ namespace Claims.BusinessLogic.Services
         public async Task<Result<Cover>> CreateCoverAsync(Cover cover)
         {
             cover.Id = Guid.NewGuid().ToString();
-            cover.Premium = ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
+            cover.Premium = _premiumCalculationService.CalculatePremium(cover.StartDate, cover.EndDate, cover.Type);
             await _repository.AddCoverAsync(cover);
             return cover;
         }
 
         public async Task<Result> DeleteCoverAsync(string id)
         {
-            // TODO: Why is this here?
-            //_auditer.AuditCover(id, "DELETE");
             return await _repository.DeleteCoverAsync(id);
-        }
-
-        public decimal ComputePremium(DateTime startDate, DateTime endDate, CoverType coverType)
-        {
-            var multiplier = 1.3m;
-            if (coverType == CoverType.Yacht)
-            {
-                multiplier = 1.1m;
-            }
-
-            if (coverType == CoverType.PassengerShip)
-            {
-                multiplier = 1.2m;
-            }
-
-            if (coverType == CoverType.Tanker)
-            {
-                multiplier = 1.5m;
-            }
-
-            var premiumPerDay = 1250 * multiplier;
-            var insuranceLength = (endDate - startDate).TotalDays;
-            var totalPremium = 0m;
-
-            for (var i = 0; i < insuranceLength; i++)
-            {
-                if (i < 30) totalPremium += premiumPerDay;
-                if (i < 180 && coverType == CoverType.Yacht) totalPremium += premiumPerDay - premiumPerDay * 0.05m;
-                else if (i < 180) totalPremium += premiumPerDay - premiumPerDay * 0.02m;
-                if (i < 365 && coverType != CoverType.Yacht) totalPremium += premiumPerDay - premiumPerDay * 0.03m;
-                else if (i < 365) totalPremium += premiumPerDay - premiumPerDay * 0.08m;
-            }
-
-            return totalPremium;
         }
     }
 }
