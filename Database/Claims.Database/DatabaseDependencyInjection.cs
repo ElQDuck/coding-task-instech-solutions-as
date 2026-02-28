@@ -37,6 +37,8 @@ namespace Claims.Database
             
             services.AddSingleton<IAuditChannel, AuditChannel>();
             services.AddSingleton<IAuditerService, AuditerService>();
+            // Task 3: Using a Background service which can be replaced by e.g.
+            // MqttAuditBackgroundService listening on topic e.g. audit/logs
             services.AddHostedService<AuditBackgroundService>();
             
             services.AddScoped<IMigrationService, MigrationService>();

@@ -2,7 +2,7 @@
 using Claims.Database.Auditing;
 using Claims.Database.Entities;
 
-namespace Claims.Database
+namespace Claims.Database.Services
 {
     public class AuditerService : IAuditerService
     {

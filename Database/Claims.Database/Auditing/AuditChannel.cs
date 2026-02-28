@@ -2,12 +2,6 @@ using System.Threading.Channels;
 
 namespace Claims.Database.Auditing
 {
-    public interface IAuditChannel
-    {
-        ValueTask SendAsync(object auditMessage);
-        IAsyncEnumerable<object> ReadAllAsync();
-    }
-
     public class AuditChannel : IAuditChannel
     {
         private readonly Channel<object> _channel;
