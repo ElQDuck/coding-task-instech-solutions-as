@@ -17,14 +17,16 @@ namespace Claims.Database
             string mongoConnectionString,
             string mongoDatabaseName)
         {
+            // Register IMongoClient as a singleton
+            services.AddSingleton<IMongoClient>(_ => new MongoClient(mongoConnectionString));
+
             services.AddDbContext<AuditContext>(options =>
                 options.UseSqlServer(sqlConnectionString));
 
-            services.AddDbContext<DbContext>(options =>
+            services.AddDbContext<DbContext>((sp, options) =>
             {
-                var client = new MongoClient(mongoConnectionString);
-                var database = client.GetDatabase(mongoDatabaseName);
-                options.UseMongoDB(database.Client, database.DatabaseNamespace.DatabaseName);
+                var client = sp.GetRequiredService<IMongoClient>();
+                options.UseMongoDB(client, mongoDatabaseName);
             });
 
             // Register Repositories and Services
