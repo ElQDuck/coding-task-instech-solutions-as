@@ -4,6 +4,7 @@ using Claims.Database.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using DbContext = Claims.Database.Repositories.DbContext;
 
 namespace Claims.Database
 {
@@ -18,7 +19,7 @@ namespace Claims.Database
             services.AddDbContext<AuditContext>(options =>
                 options.UseSqlServer(sqlConnectionString));
 
-            services.AddDbContext<ClaimsContext>(options =>
+            services.AddDbContext<DbContext>(options =>
             {
                 var client = new MongoClient(mongoConnectionString);
                 var database = client.GetDatabase(mongoDatabaseName);

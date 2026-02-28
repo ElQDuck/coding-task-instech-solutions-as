@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Claims.Database.Repositories
 {
-    public class AuditContext : DbContext
+    public class AuditContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public AuditContext(DbContextOptions<AuditContext> options) : base(options)
         {

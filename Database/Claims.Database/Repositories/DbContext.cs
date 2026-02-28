@@ -4,13 +4,13 @@ using MongoDB.EntityFrameworkCore.Extensions;
 
 namespace Claims.Database.Repositories
 {
-    public class ClaimsContext : DbContext
+    public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
 
         private DbSet<Claim> Claims { get; init; }
         public DbSet<Cover> Covers { get; init; }
 
-        public ClaimsContext(DbContextOptions options)
+        public DbContext(DbContextOptions options)
             : base(options)
         {
         }

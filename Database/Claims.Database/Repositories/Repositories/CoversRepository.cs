@@ -6,9 +6,9 @@ namespace Claims.Database.Repositories.Repositories
 {
     public class CoversRepository : ICoversRepository
     {
-        private readonly ClaimsContext _context;
+        private readonly DbContext _context;
 
-        public CoversRepository(ClaimsContext context)
+        public CoversRepository(DbContext context)
         {
             _context = context;
         }
