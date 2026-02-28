@@ -8,10 +8,12 @@ namespace Claims.Database.Repositories
     public class CoversRepository : ICoversRepository
     {
         private readonly DbContext _context;
+        private readonly IAuditerService _auditer;
 
-        public CoversRepository(DbContext context)
+        public CoversRepository(DbContext context, IAuditerService auditer)
         {
             _context = context;
+            _auditer = auditer;
         }
 
         public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
@@ -36,6 +38,7 @@ namespace Claims.Database.Repositories
         {
             _context.Covers.Add(item);
             await _context.SaveChangesAsync();
+            _auditer.AuditCover(item.Id, "POST");
             return Result.FromSuccess(item);
         }
 
@@ -46,6 +49,7 @@ namespace Claims.Database.Repositories
             {
                 _context.Covers.Remove(result.Value);
                 await _context.SaveChangesAsync();
+                _auditer.AuditCover(id, "DELETE");
                 return Result.FromSuccess();
             }
             return Result.FromException(new Exception($"Cover with id '{id}' could not be deleted."));

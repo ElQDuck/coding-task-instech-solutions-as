@@ -6,11 +6,11 @@ namespace Claims.Database
 {
     public class AuditerService : IAuditerService
     {
-        private readonly IAuditRepository _auditRepository;
+        private readonly IAuditChannel _auditChannel;
 
-        public AuditerService(IAuditRepository auditRepository)
+        public AuditerService(IAuditChannel auditChannel)
         {
-            _auditRepository = auditRepository;
+            _auditChannel = auditChannel;
         }
 
         public void AuditClaim(string id, string httpRequestType)
@@ -22,7 +22,7 @@ namespace Claims.Database
                 ClaimId = id
             };
 
-            _auditRepository.AddClaimAudit(claimAudit);
+            _auditChannel.SendAsync(claimAudit);
         }
         
         public void AuditCover(string id, string httpRequestType)
@@ -34,7 +34,7 @@ namespace Claims.Database
                 CoverId = id
             };
 
-            _auditRepository.AddCoverAudit(coverAudit);
+            _auditChannel.SendAsync(coverAudit);
         }
     }
 }

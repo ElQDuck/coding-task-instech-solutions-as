@@ -2,6 +2,7 @@ using Claims.BusinessLogic.Interfaces;
 using Claims.Database.Auditing;
 using Claims.Database.Context;
 using Claims.Database.Repositories;
+using Claims.Database.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
@@ -33,7 +34,11 @@ namespace Claims.Database
             services.AddScoped<IClaimsRepository, ClaimsRepository>();
             services.AddScoped<ICoversRepository, CoversRepository>();
             services.AddScoped<IAuditRepository, AuditRepository>();
-            services.AddScoped<IAuditerService, AuditerService>();
+            
+            services.AddSingleton<IAuditChannel, AuditChannel>();
+            services.AddSingleton<IAuditerService, AuditerService>();
+            services.AddHostedService<AuditBackgroundService>();
+            
             services.AddScoped<IMigrationService, MigrationService>();
         }
     }

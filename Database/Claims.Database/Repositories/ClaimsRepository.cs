@@ -8,10 +8,12 @@ namespace Claims.Database.Repositories
     public class ClaimsRepository : IClaimsRepository
     {
         private readonly DbContext _context;
+        private readonly IAuditerService _auditer;
 
-        public ClaimsRepository(DbContext context)
+        public ClaimsRepository(DbContext context, IAuditerService auditer)
         {
             _context = context;
+            _auditer = auditer;
         }
 
         public async Task<Result<IEnumerable<Claim>>> GetClaimsAsync()
@@ -36,6 +38,7 @@ namespace Claims.Database.Repositories
         {
             _context.Claims.Add(item);
             await _context.SaveChangesAsync();
+            _auditer.AuditClaim(item.Id, "POST");
             return Result.FromSuccess(item);
         }
 
@@ -46,6 +49,7 @@ namespace Claims.Database.Repositories
             {
                 _context.Claims.Remove(result.Value);
                 await _context.SaveChangesAsync();
+                _auditer.AuditClaim(id, "DELETE");
                 return Result.FromSuccess();
             }
             return Result.FromException(new Exception($"Claim with id '{id}' could not be deleted."));
