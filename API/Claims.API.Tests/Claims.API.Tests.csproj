@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Claims.API\Claims.API.csproj" />
-    <ProjectReference Include="..\Claims.BusinessLogic\Claims.BusinessLogic.csproj" />
  <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">
       <PrivateAssets>all</PrivateAssets>

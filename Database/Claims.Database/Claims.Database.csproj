@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Claims.BusinessLogic\Claims.BusinessLogic.csproj" />
+    <ProjectReference Include="..\..\BusinessLogic\Claims.BusinessLogic\Claims.BusinessLogic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
