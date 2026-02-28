@@ -1,9 +1,10 @@
-﻿using Claims.Database.Auditing;
+﻿using Claims.BusinessLogic.Interfaces;
+using Claims.Database.Auditing;
 using Claims.Database.Entities;
 
 namespace Claims.Database
 {
-    public class AuditerService
+    public class AuditerService : IAuditerService
     {
         private readonly IAuditRepository _auditRepository;
 

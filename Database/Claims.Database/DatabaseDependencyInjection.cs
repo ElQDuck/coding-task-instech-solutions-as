@@ -31,6 +31,7 @@ namespace Claims.Database
             services.AddScoped<IClaimsRepository, ClaimsRepository>();
             services.AddScoped<ICoversRepository, CoversRepository>();
             services.AddScoped<IAuditRepository, AuditRepository>();
+            services.AddScoped<IAuditerService, AuditerService>();
             services.AddScoped<IMigrationService, MigrationService>();
         }
     }
