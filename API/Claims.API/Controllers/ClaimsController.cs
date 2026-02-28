@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Claims.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class ClaimsController : ControllerBase
     {
         private readonly ILogger<ClaimsController> _logger;
@@ -17,7 +16,7 @@ namespace Claims.API.Controllers
             _claimsService = claimsService;
         }
 
-        [HttpGet]
+        [HttpGet("Claims")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Claim>))]
         public async Task<ActionResult> GetClaimsAsync()
@@ -27,7 +26,7 @@ namespace Claims.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("Claim/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Claim))]
         public async Task<ActionResult> GetClaimAsync(string id)
@@ -37,7 +36,7 @@ namespace Claims.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPost]
+        [HttpPost("Claim")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Claim))]
         public async Task<ActionResult> CreateClaimAsync(Claim claim)
@@ -47,7 +46,7 @@ namespace Claims.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Claim/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> DeleteClaimAsync([FromRoute]string id)

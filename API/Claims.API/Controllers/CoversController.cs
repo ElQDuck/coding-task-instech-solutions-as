@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Claims.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
 public class CoversController : ControllerBase
 {
     private readonly ICoversService _coversService;
@@ -17,34 +16,34 @@ public class CoversController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost("compute")]
+    [HttpPost("Cover/compute")]
     public ActionResult ComputePremium(DateTime startDate, DateTime endDate, CoverType coverType)
     {
         return Ok(_coversService.ComputePremium(startDate, endDate, coverType));
     }
 
-    [HttpGet]
+    [HttpGet("Covers")]
     public async Task<ActionResult<IEnumerable<Cover>>> GetAsync()
     {
         var results = await _coversService.GetCoversAsync();
         return Ok(results);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("Cover/{id}")]
     public async Task<ActionResult<Cover>> GetAsync(string id)
     {
         var cover = await _coversService.GetCoverAsync(id);
         return Ok(cover);
     }
 
-    [HttpPost]
+    [HttpPost("Cover")]
     public async Task<ActionResult> CreateAsync(Cover cover)
     {
         var createdCover = await _coversService.CreateCoverAsync(cover);
         return Ok(createdCover);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("Cover/{id}")]
     public async Task DeleteAsync(string id)
     {
         await _coversService.DeleteCoverAsync(id);

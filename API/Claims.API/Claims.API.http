@@ -1,10 +1,78 @@
-# Use this for testing the API endpoints directly from within the IDE.
-@Claims_API_HostAddress = https://localhost:7052
+# Claims API Testing
+# Use this for testing the API endpoints directly.
+# Default Host: https://localhost:7052
 
-GET {{Claims_API_HostAddress}}/Claims/
+@Claims_API_HostAddress = https://localhost:7052
+@CoverId = sample-cover-id
+@ClaimId = sample-claim-id
+
+### 1. Compute Premium
+POST {{Claims_API_HostAddress}}/Cover/compute?startDate=2026-03-01T00:00:00Z&endDate=2026-04-01T00:00:00Z&coverType=Yacht
 Accept: application/json
 
 ###
 
-GET {{Claims_API_HostAddress}}/Covers/
+### 2. Create a Cover
+POST {{Claims_API_HostAddress}}/Cover
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": "{{CoverId}}",
+  "startDate": "2026-03-01T00:00:00Z",
+  "endDate": "2026-04-01T00:00:00Z",
+  "type": "Yacht",
+  "premium": 1250.50
+}
+
+###
+
+### 3. Get All Covers
+GET {{Claims_API_HostAddress}}/Covers
+Accept: application/json
+
+###
+
+### 4. Get Cover by ID
+GET {{Claims_API_HostAddress}}/Cover/{{CoverId}}
+Accept: application/json
+
+###
+
+### 5. Create a Claim
+POST {{Claims_API_HostAddress}}/Claim
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": "{{ClaimId}}",
+  "coverId": "{{CoverId}}",
+  "created": "2026-03-15T12:00:00Z",
+  "name": "Collision with buoy",
+  "type": "Collision",
+  "damageCost": 500.00
+}
+
+###
+
+### 6. Get All Claims
+GET {{Claims_API_HostAddress}}/Claims
+Accept: application/json
+
+###
+
+### 7. Get Claim by ID
+GET {{Claims_API_HostAddress}}/Claim/{{ClaimId}}
+Accept: application/json
+
+###
+
+### 8. Delete Claim
+DELETE {{Claims_API_HostAddress}}/Claim/{{ClaimId}}
+Accept: application/json
+
+###
+
+### 9. Delete Cover
+DELETE {{Claims_API_HostAddress}}/Cover/{{CoverId}}
 Accept: application/json
