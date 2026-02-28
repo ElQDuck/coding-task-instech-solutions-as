@@ -1,6 +1,10 @@
-@Claims.API_HostAddress = http://localhost:5126
+# Use this for testing the API endpoints directly from within the IDE.
+@Claims_API_HostAddress = https://localhost:7052
 
-GET {{Claims.API_HostAddress}}/weatherforecast/
+GET {{Claims_API_HostAddress}}/Claims/
 Accept: application/json
 
 ###
+
+GET {{Claims_API_HostAddress}}/Covers/
+Accept: application/json

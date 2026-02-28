@@ -22,32 +22,47 @@ namespace Claims.Database.Repositories
             modelBuilder.Entity<Cover>().ToCollection("covers");
         }
 
-        public async Task<IEnumerable<Claim>> GetClaimsAsync()
+        public async Task<Result<IEnumerable<Claim>>> GetClaimsAsync()
         {
-            return await Claims.ToListAsync();
+            var claims = await Claims.ToListAsync();
+            return Result.FromSuccess(claims.AsEnumerable());
         }
 
-        public async Task<Claim> GetClaimAsync(string id)
+        public async Task<Result<Claim>> GetClaimAsync(string id)
         {
-            return await Claims
+            var result =  await Claims
                 .Where(claim => claim.Id == id)
                 .SingleOrDefaultAsync();
+            if (result is not null)
+            {
+                return Result.FromSuccess(result);
+                
+            }
+            // TODO: Move messages into resources.
+            var exception = new Exception($"Claim with id '{id}' not found");
+            return Result.FromException<Claim>(exception);
         }
 
-        public async Task AddItemAsync(Claim item)
+        public async Task<Result<Claim>> AddItemAsync(Claim item)
         {
             Claims.Add(item);
             await SaveChangesAsync();
+            return Result.FromSuccess(item);
         }
 
-        public async Task DeleteItemAsync(string id)
+        public async Task<Result> DeleteItemAsync(string id)
         {
-            var claim = await GetClaimAsync(id);
-            if (claim is not null)
+            var result = await GetClaimAsync(id);
+            if (result.IsSuccess)
             {
-                Claims.Remove(claim);
+                Claims.Remove(result.Value);
+                // TODO: Probably add try catch for better result message.
                 await SaveChangesAsync();
+                return Result.FromSuccess();
             }
+            // TODO: Move messages into resources.
+            var exception = new Exception($"Claim with id '{id}' could not be deleted.");
+            return Result.FromException(exception);
         }
     }
 }

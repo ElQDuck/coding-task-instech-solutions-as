@@ -14,17 +14,17 @@ namespace Claims.BusinessLogic.Services
             _auditer = auditer;
         }
 
-        public async Task<IEnumerable<Claim>> GetClaimsAsync()
+        public async Task<Result<IEnumerable<Claim>>> GetClaimsAsync()
         {
             return await _repository.GetClaimsAsync();
         }
 
-        public async Task<Claim> GetClaimAsync(string id)
+        public async Task<Result<Claim>> GetClaimAsync(string id)
         {
             return await _repository.GetClaimAsync(id);
         }
 
-        public async Task<Claim> CreateClaimAsync(Claim claim)
+        public async Task<Result<Claim>> CreateClaimAsync(Claim claim)
         {
             claim.Id = Guid.NewGuid().ToString();
             await _repository.AddClaimAsync(claim);
@@ -32,10 +32,9 @@ namespace Claims.BusinessLogic.Services
             return claim;
         }
 
-        public async Task DeleteClaimAsync(string id)
+        public async Task<Result> DeleteClaimAsync(string id)
         {
-            _auditer.AuditClaim(id, "DELETE");
-            await _repository.DeleteClaimAsync(id);
+            return await _repository.DeleteClaimAsync(id);
         }
     }
 }

@@ -12,24 +12,24 @@ namespace Claims.Database.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Claim>> GetClaimsAsync()
+        public async Task<Result<IEnumerable<Claim>>> GetClaimsAsync()
         {
             return await _context.GetClaimsAsync();
         }
 
-        public async Task<Claim> GetClaimAsync(string id)
+        public async Task<Result<Claim>> GetClaimAsync(string id)
         {
             return await _context.GetClaimAsync(id);
         }
 
-        public async Task AddClaimAsync(Claim item)
+        public async Task<Result<Claim>> AddClaimAsync(Claim item)
         {
-            await _context.AddItemAsync(item);
+            return await _context.AddItemAsync(item);
         }
 
-        public async Task DeleteClaimAsync(string id)
+        public async Task<Result> DeleteClaimAsync(string id)
         {
-            await _context.DeleteItemAsync(id);
+            return await _context.DeleteItemAsync(id);
         }
     }
 }

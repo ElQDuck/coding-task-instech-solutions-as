@@ -4,9 +4,9 @@ namespace Claims.BusinessLogic.Interfaces
 {
     public interface IClaimsRepository
     {
-        Task<IEnumerable<Claim>> GetClaimsAsync();
-        Task<Claim> GetClaimAsync(string id);
-        Task AddClaimAsync(Claim item);
-        Task DeleteClaimAsync(string id);
+        Task<Result<IEnumerable<Claim>>> GetClaimsAsync();
+        Task<Result<Claim>> GetClaimAsync(string id);
+        Task<Result<Claim>>  AddClaimAsync(Claim item);
+        Task<Result> DeleteClaimAsync(string id);
     }
 }
