@@ -19,8 +19,8 @@ Accept: application/json
 
 {
   "id": "{{CoverId}}",
-  "startDate": "2026-03-01T00:00:00Z",
-  "endDate": "2026-04-01T00:00:00Z",
+  "startDate": "2026-01-01T00:00:00Z",
+  "endDate": "2026-12-31T00:00:00Z",
   "type": "Yacht",
   "premium": 1250.50
 }

@@ -6,10 +6,12 @@ namespace Claims.BusinessLogic.Services
     public class ClaimsService : IClaimsService
     {
         private readonly IClaimsRepository _claimsRepository;
+        private readonly ICoversService _coversService;
 
-        public ClaimsService(IClaimsRepository claimsRepository)
+        public ClaimsService(IClaimsRepository claimsRepository, ICoversService coversService)
         {
             _claimsRepository = claimsRepository;
+            _coversService = coversService;
         }
 
         public async Task<Result<IEnumerable<Claim>>> GetClaimsAsync()
@@ -24,7 +26,18 @@ namespace Claims.BusinessLogic.Services
 
         public async Task<Result<Claim>> CreateClaimAsync(Claim claim)
         {
-            // TODO: Check for existing coverId?
+            // Created date must be within the period of the related Cover 
+            var coverResult = await _coversService.GetCoverAsync(claim.CoverId);
+            coverResult.EnsureSuccess();
+
+            var cover = coverResult.Value;
+            if (claim.Created < cover.StartDate || claim.Created > cover.EndDate)
+            {
+                var error = new ArgumentException("Claim date must be within the cover period.");
+                return Result.FromException<Claim>(error);
+            }
+
+            // DamageCost cannot exceed 100.000
             const int maxDamageCost = 100000;
             if (claim.DamageCost > maxDamageCost)
             {
