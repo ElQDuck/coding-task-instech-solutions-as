@@ -1,6 +1,6 @@
 ﻿namespace Claims.BusinessLogic.Tests;
 
-public class UnitTest1
+public class ClaimServiceTests
 {
 
     public void Test1()

@@ -1,6 +1,6 @@
 ﻿namespace Claims.Database.Tests;
 
-public class UnitTest1
+public class AuditerServiceTests
 {
     public void Test1()
     {
