@@ -56,5 +56,23 @@ namespace Claims.BusinessLogic.Resources {
                 return ResourceManager.GetString("E_DamageCostHigherThan", resourceCulture);
             }
         }
+        
+        internal static string E_StartDateInThePast {
+            get {
+                return ResourceManager.GetString("E_StartDateInThePast", resourceCulture);
+            }
+        }
+        
+        internal static string E_EnsurancePeriorExeedsOneYear {
+            get {
+                return ResourceManager.GetString("E_EnsurancePeriorExeedsOneYear", resourceCulture);
+            }
+        }
+        
+        internal static string E_ClaimDateOutsideCoverPeriod {
+            get {
+                return ResourceManager.GetString("E_ClaimDateOutsideCoverPeriod", resourceCulture);
+            }
+        }
     }
 }

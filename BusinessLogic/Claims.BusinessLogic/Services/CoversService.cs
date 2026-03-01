@@ -29,7 +29,7 @@ namespace Claims.BusinessLogic.Services
             // StartDate cannot be in the past
             if (cover.StartDate < DateTime.UtcNow)
             {
-                var error = new ArgumentException("Start date cannot be in the past.");
+                var error = new ArgumentException(Resources.ErrorMessages.E_StartDateInThePast);
                 return Result.FromException<Cover>(error);
             }
             
@@ -39,7 +39,7 @@ namespace Claims.BusinessLogic.Services
             var endTime = cover.EndDate.Date;
             if (endTime > startTime.AddYears(1))
             {
-                var error = new ArgumentException("Total insurance period cannot exceed 1 year.");
+                var error = new ArgumentException(Resources.ErrorMessages.E_EnsurancePeriorExeedsOneYear);
                 return Result.FromException<Cover>(error);
             }
             

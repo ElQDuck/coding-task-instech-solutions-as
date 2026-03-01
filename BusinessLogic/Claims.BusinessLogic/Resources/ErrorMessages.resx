@@ -24,4 +24,13 @@
     <data name="E_DamageCostHigherThan" xml:space="preserve">
         <value>Damage cost must be less than {0}.</value>
     </data>
+    <data name="E_StartDateInThePast" xml:space="preserve">
+        <value>Start date cannot be in the past.</value>
+    </data>
+    <data name="E_EnsurancePeriorExeedsOneYear" xml:space="preserve">
+        <value>Total insurance period cannot exceed 1 year.</value>
+    </data>
+    <data name="E_ClaimDateOutsideCoverPeriod" xml:space="preserve">
+        <value>Claim date must be within the cover period.</value>
+    </data>
 </root>

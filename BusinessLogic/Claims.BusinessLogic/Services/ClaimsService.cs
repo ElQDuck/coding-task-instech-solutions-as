@@ -34,7 +34,7 @@ namespace Claims.BusinessLogic.Services
             var cover = coverResult.Value;
             if (claim.Created < cover.StartDate || claim.Created > cover.EndDate)
             {
-                var error = new ArgumentException("Claim date must be within the cover period.");
+                var error = new ArgumentException(Resources.ErrorMessages.E_ClaimDateOutsideCoverPeriod);
                 return Result.FromException<Claim>(error);
             }
 
