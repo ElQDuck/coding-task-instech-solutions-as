@@ -43,6 +43,9 @@ public abstract class BaseCoverPremiumStrategy : ICoverPremiumStrategy
     }
 }
 
+/// <summary>
+/// The 
+/// </summary>
 public class YachtPremiumStrategy : BaseCoverPremiumStrategy
 {
     public YachtPremiumStrategy(IDiscountProvider discountProvider) : base(discountProvider) { }

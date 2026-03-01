@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessLogic\Claims.BusinessLogic\Claims.BusinessLogic.csproj" />
+    <!-- This is needed to trigger the database migration on startup during development. -->
     <ProjectReference Include="..\..\Database\Claims.Database\Claims.Database.csproj" />
   </ItemGroup>
 

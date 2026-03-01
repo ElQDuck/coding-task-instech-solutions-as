@@ -8,13 +8,13 @@ namespace Claims.API.Controllers;
 public class CoversController : ControllerBase
 {
     private readonly ICoversService _coversService;
-    private readonly IPremiumCalculationService _premiumCalculationService;
+    private readonly IPremiumComputeService _premiumComputeService;
     private readonly ILogger<CoversController> _logger;
 
-    public CoversController(ICoversService coversService, IPremiumCalculationService premiumCalculationService, ILogger<CoversController> logger)
+    public CoversController(ICoversService coversService, IPremiumComputeService premiumComputeService, ILogger<CoversController> logger)
     {
         _coversService = coversService;
-        _premiumCalculationService = premiumCalculationService;
+        _premiumComputeService = premiumComputeService;
         _logger = logger;
     }
 
@@ -23,7 +23,7 @@ public class CoversController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult ComputePremiumAsync(DateTime startDate, DateTime endDate, CoverType coverType)
     {
-        return Ok(_premiumCalculationService.CalculatePremium(startDate, endDate, coverType));
+        return Ok(_premiumComputeService.ComputePremium(startDate, endDate, coverType));
     }
 
     [HttpGet("Covers")]

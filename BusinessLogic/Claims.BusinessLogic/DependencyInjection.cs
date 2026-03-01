@@ -14,7 +14,7 @@ namespace Claims.BusinessLogic
             // Register BusinessLogic services
             services.AddScoped<Interfaces.IClaimsService, Services.ClaimsService>();
             services.AddScoped<Interfaces.ICoversService, Services.CoversService>();
-            services.AddScoped<Interfaces.IPremiumCalculationService, Services.PremiumCalculationService>();
+            services.AddScoped<Interfaces.IPremiumComputeService, Services.PremiumComputeService>();
             services.AddScoped<Interfaces.IDiscountProvider, Services.DefaultDiscountProvider>();
             services.AddScoped<Interfaces.IDefaultStrategyProvider, Services.DefaultStrategyProvider>();
 

@@ -6,12 +6,12 @@ namespace Claims.BusinessLogic.Services
     public class CoversService : ICoversService
     {
         private readonly ICoversRepository _repository;
-        private readonly IPremiumCalculationService _premiumCalculationService;
+        private readonly IPremiumComputeService _premiumComputeService;
 
-        public CoversService(ICoversRepository repository, IPremiumCalculationService premiumCalculationService)
+        public CoversService(ICoversRepository repository, IPremiumComputeService premiumComputeService)
         {
             _repository = repository;
-            _premiumCalculationService = premiumCalculationService;
+            _premiumComputeService = premiumComputeService;
         }
 
         public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
@@ -44,7 +44,7 @@ namespace Claims.BusinessLogic.Services
             }
             
             cover.Id = Guid.NewGuid().ToString();
-            cover.Premium = _premiumCalculationService.CalculatePremium(cover.StartDate, cover.EndDate, cover.Type);
+            cover.Premium = _premiumComputeService.ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
             await _repository.AddCoverAsync(cover);
             return cover;
         }
