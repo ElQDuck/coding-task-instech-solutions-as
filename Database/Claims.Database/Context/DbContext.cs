@@ -66,7 +66,6 @@ namespace Claims.Database.Context
                 return Result.FromSuccess(result);
                 
             }
-            // TODO: Move messages into resources.
             var exception = new Exception($"Claim with id '{id}' not found");
             return Result.FromException<Claim>(exception);
         }
@@ -86,7 +85,6 @@ namespace Claims.Database.Context
                 return Result.FromSuccess(result);
                 
             }
-            // TODO: Move messages into resources.
             var exception = new Exception($"Cover with id '{id}' not found");
             return Result.FromException<Cover>(exception);
         }
@@ -130,7 +128,6 @@ namespace Claims.Database.Context
                 await SaveChangesAsync();
                 return Result.FromSuccess();
             }
-            // TODO: Move messages into resources.
             var exception = new Exception($"Claim with id '{id}' could not be deleted.");
             return Result.FromException(exception);
         }
@@ -150,7 +147,6 @@ namespace Claims.Database.Context
                 await SaveChangesAsync();
                 return Result.FromSuccess();
             }
-            // TODO: Move messages into resources.
             var exception = new Exception($"Cover with id '{id}' could not be deleted.");
             return Result.FromException(exception);
         }
