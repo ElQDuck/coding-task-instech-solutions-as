@@ -1,0 +1,39 @@
+# Claims API Testing
+# Use this for testing the API endpoints directly.
+# Default Host: https://localhost:7052
+
+@Claims_API_HostAddress = https://localhost:7052
+@CoverId = sample-cover-id
+@ClaimId = sample-claim-id
+@CoverStartDate = 2026-06-01T00:00:00Z
+@CoverEndDate = 2027-06-01T00:00:00Z
+
+### 1. Compute Premium
+# @name computePremiumRequest
+POST {{Claims_API_HostAddress}}/Cover/compute?startDate={{CoverStartDate}}&endDate={{CoverEndDate}}&coverType=Yacht
+Accept: application/json
+
+> {% client.global.set("computedPremium", response.body); %}
+
+###
+
+### 2. Create a Cover
+POST {{Claims_API_HostAddress}}/Cover
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": "{{CoverId}}",
+  "startDate": "{{CoverStartDate}}",
+  "endDate": "{{CoverEndDate}}",
+  "type": "Yacht",
+  "premium": {{computedPremium}}
+}
+
+###
+
+### 3. Get All Covers
+GET {{Claims_API_HostAddress}}/Covers
+Accept: application/json
+
+###
