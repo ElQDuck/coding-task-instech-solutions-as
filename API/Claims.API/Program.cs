@@ -61,7 +61,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 // We still need to run migrations. Since API shouldn't depend on Database, we'll
-// trigger this via a service in BusinessLogic.
+// trigger this via a service in BusinessLogic. BUT, in production i would implement a
+// Claims.Database.Migration Project/Service and run it at very first as a init container in k8s.
 using (var scope = app.Services.CreateScope())
 {
     var migrationService = scope.ServiceProvider.GetService<Claims.BusinessLogic.Interfaces.IMigrationService>();
