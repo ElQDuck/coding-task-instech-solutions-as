@@ -20,7 +20,7 @@ public class PremiumComputeService : IPremiumComputeService
     public decimal ComputePremium(DateTime startDate, DateTime endDate, CoverType coverType)
     {
         var strategy = _strategies.FirstOrDefault(s => s.SupportedType == coverType) 
-                       ?? new DefaultPremiumStrategy(coverType, _discountProvider);
+                       ?? new BaseCoverPremiumStrategy(coverType, _discountProvider);
         
         return strategy.CalculatePremium(startDate, endDate);
     }
