@@ -43,6 +43,13 @@ namespace Claims.BusinessLogic.Services
                 return Result.FromException<Cover>(error);
             }
             
+            // Make sure that EndDate is after StartDate (possible input error)
+            if (cover.StartDate > cover.EndDate)
+            {
+                var error = new ArgumentException("Start date cannot be after end date.");
+                return Result.FromException<Cover>(error);
+            }
+            
             cover.Id = Guid.NewGuid().ToString();
             cover.Premium = _premiumComputeService.ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
             await _repository.AddCoverAsync(cover);

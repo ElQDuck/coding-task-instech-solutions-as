@@ -21,6 +21,11 @@ public class BaseCoverPremiumStrategy : ICoverPremiumStrategy
     {
         // Calculating only full days
         var insuranceLengthTotalDays = (endDate.Date - startDate.Date).Days;
+        // Make sure that a 1-Day insurance is not free ;)
+        if (endDate.Date == startDate.Date)
+        {
+            insuranceLengthTotalDays = 1;
+        }
         var dailyBase = BaseRate * Multiplier;
         var totalPremium = 0m;
 
