@@ -99,4 +99,42 @@ public class PremiumComputeServiceTests
 
         Assert.That(result, Is.EqualTo(expected));
     }
+
+    [Test]
+    public void ComputePremium_Base_DiscountBoundary_Day30_vs_Day31()
+    {
+        var strategies = Array.Empty<ICoverPremiumStrategy>();
+        var svc = new PremiumComputeService(strategies);
+
+        var start = DateTime.UtcNow;
+        var end30 = start.AddDays(30);
+        var end31 = start.AddDays(31);
+
+        var res30 = svc.ComputePremium(start, end30, CoverType.Tanker);
+        var res31 = svc.ComputePremium(start, end31, CoverType.Tanker);
+
+        var dailyBase = 1250m * 1.3m;
+        var expectedDiff = dailyBase * (1 - 0.02m); // 31st day gets 2% discount
+
+        Assert.That(res31 - res30, Is.EqualTo(expectedDiff));
+    }
+
+    [Test]
+    public void ComputePremium_Base_DiscountBoundary_Day180_vs_Day181()
+    {
+        var strategies = Array.Empty<ICoverPremiumStrategy>();
+        var svc = new PremiumComputeService(strategies);
+
+        var start = DateTime.UtcNow;
+        var end180 = start.AddDays(180);
+        var end181 = start.AddDays(181);
+
+        var res180 = svc.ComputePremium(start, end180, CoverType.Tanker);
+        var res181 = svc.ComputePremium(start, end181, CoverType.Tanker);
+
+        var dailyBase = 1250m * 1.3m;
+        var expectedDiff = dailyBase * (1 - 0.03m); // 181st day gets 3% discount
+
+        Assert.That(res181 - res180, Is.EqualTo(expectedDiff));
+    }
 }
