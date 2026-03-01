@@ -16,8 +16,8 @@ namespace Claims.API.Controllers
         /// <summary>
         /// Initializes an instance of the <see cref="ClaimsController"/> class.
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="claimsService"></param>
+        /// <param name="logger">The logger.</param>
+        /// <param name="claimsService">The claims service.</param>
         public ClaimsController(ILogger<ClaimsController> logger, IClaimsService claimsService)
         {
             _logger = logger;
@@ -41,7 +41,7 @@ namespace Claims.API.Controllers
         /// <summary>
         /// The route to get a claim by its ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The claim ID.</param>
         /// <returns>The requested claim.</returns>
         [HttpGet("Claim/{id}")]
         [Produces("application/json")]
@@ -53,6 +53,11 @@ namespace Claims.API.Controllers
             return Ok(result.Value);
         }
 
+        /// <summary>
+        /// The route to create a claim.
+        /// </summary>
+        /// <param name="claim">The claim to create.</param>
+        /// <returns>The created claim.</returns>
         [HttpPost("Claim")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Claim))]
@@ -63,14 +68,19 @@ namespace Claims.API.Controllers
             return Ok(result.Value);
         }
 
+        /// <summary>
+        /// The route to delete a claim.
+        /// </summary>
+        /// <param name="id">The ID of the claim to delete.</param>
+        /// <returns>An HTTP 204 NoContent result.</returns>
         [HttpDelete("Claim/{id}")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> DeleteClaimAsync([FromRoute]string id)
         {
             var result = await _claimsService.DeleteClaimAsync(id);
             result.EnsureSuccess();
-            return Ok();
+            return NoContent();
         }
     }
 }

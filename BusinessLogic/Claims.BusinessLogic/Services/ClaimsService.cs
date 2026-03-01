@@ -3,11 +3,19 @@ using Claims.BusinessLogic.Interfaces;
 
 namespace Claims.BusinessLogic.Services
 {
+    /// <summary>
+    /// Implements the service for managing claims.
+    /// </summary>
     public class ClaimsService : IClaimsService
     {
         private readonly IClaimsRepository _claimsRepository;
         private readonly ICoversService _coversService;
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="ClaimsService"/> class.
+        /// </summary>
+        /// <param name="claimsRepository">The claims repository.</param>
+        /// <param name="coversService">The covers service.</param>
         public ClaimsService(IClaimsRepository claimsRepository, ICoversService coversService)
         {
             _claimsRepository = claimsRepository;
@@ -20,11 +28,13 @@ namespace Claims.BusinessLogic.Services
             return await _claimsRepository.GetClaimsAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<Result<Claim>> GetClaimAsync(string id)
         {
             return await _claimsRepository.GetClaimAsync(id);
         }
 
+        /// <inheritdoc/>
         public async Task<Result<Claim>> CreateClaimAsync(Claim claim)
         {
             // Created date must be within the period of the related Cover 
@@ -50,6 +60,7 @@ namespace Claims.BusinessLogic.Services
             return Result.FromSuccess(claim);
         }
 
+        /// <inheritdoc/>
         public async Task<Result> DeleteClaimAsync(string id)
         {
             return await _claimsRepository.DeleteClaimAsync(id);

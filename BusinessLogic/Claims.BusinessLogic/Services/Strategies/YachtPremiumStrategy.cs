@@ -4,10 +4,13 @@ using Claims.BusinessLogic.Interfaces;
 namespace Claims.BusinessLogic.Services.Strategies;
 
 /// <summary>
-/// The 
+/// Premium calculation strategy for yachts.
 /// </summary>
 public class YachtPremiumStrategy : BaseCoverPremiumStrategy
 {
+    /// <summary>
+    /// Initializes an instance of the <see cref="YachtPremiumStrategy"/> class.
+    /// </summary>
     public YachtPremiumStrategy() : base(CoverType.Yacht) { }
     protected override decimal Multiplier => 1.1m;
 

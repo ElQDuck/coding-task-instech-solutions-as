@@ -1,3 +1,7 @@
+// <summary>
+// The main entry point for the Claims API.
+// This file sets up the WebApplication, configures services, and initializes the HTTP request pipeline.
+// </summary>
 using Claims.API.Controllers;
 using Claims.BusinessLogic;
 using System.Runtime.InteropServices;

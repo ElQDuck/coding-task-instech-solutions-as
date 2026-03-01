@@ -10,8 +10,18 @@ using DbContext = Claims.Database.Context.DbContext;
 
 namespace Claims.Database
 {
+    /// <summary>
+    /// Extension methods for setting up database-related services in an <see cref="IServiceCollection"/>.
+    /// </summary>
     public static class DatabaseDependencyInjection
     {
+        /// <summary>
+        /// Adds database services and repositories to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The service collection to add services to.</param>
+        /// <param name="sqlConnectionString">The SQL Server connection string.</param>
+        /// <param name="mongoConnectionString">The MongoDB connection string.</param>
+        /// <param name="mongoDatabaseName">The name of the MongoDB database.</param>
         public static void AddDatabaseServices(
             IServiceCollection services,
             string sqlConnectionString,

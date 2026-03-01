@@ -3,27 +3,38 @@ using Claims.BusinessLogic.Interfaces;
 
 namespace Claims.BusinessLogic.Services
 {
+    /// <summary>
+    /// Implements the service for managing covers.
+    /// </summary>
     public class CoversService : ICoversService
     {
         private readonly ICoversRepository _repository;
         private readonly IPremiumComputeService _premiumComputeService;
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="CoversService"/> class.
+        /// </summary>
+        /// <param name="repository">The covers repository.</param>
+        /// <param name="premiumComputeService">The premium compute service.</param>
         public CoversService(ICoversRepository repository, IPremiumComputeService premiumComputeService)
         {
             _repository = repository;
             _premiumComputeService = premiumComputeService;
         }
 
+        /// <inheritdoc/>
         public async Task<Result<IEnumerable<Cover>>> GetCoversAsync()
         {
             return await _repository.GetCoversAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<Result<Cover>> GetCoverAsync(string id)
         {
             return await _repository.GetCoverAsync(id);
         }
 
+        /// <inheritdoc/>
         public async Task<Result<Cover>> CreateCoverAsync(Cover cover)
         {
             // StartDate cannot be in the past
@@ -56,6 +67,7 @@ namespace Claims.BusinessLogic.Services
             return cover;
         }
 
+        /// <inheritdoc/>
         public async Task<Result> DeleteCoverAsync(string id)
         {
             return await _repository.DeleteCoverAsync(id);

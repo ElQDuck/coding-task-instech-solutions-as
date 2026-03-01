@@ -3,8 +3,19 @@ using System.Reflection;
 
 namespace Claims.BusinessLogic
 {
+    /// <summary>
+    /// Extension methods for setting up business logic and persistence services in an <see cref="IServiceCollection"/>.
+    /// </summary>
     public static class DependencyInjection
     {
+        /// <summary>
+        /// Adds business logic services and persistence to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The service collection to add services to.</param>
+        /// <param name="sqlConnectionString">The SQL Server connection string.</param>
+        /// <param name="mongoConnectionString">The MongoDB connection string.</param>
+        /// <param name="mongoDatabaseName">The name of the MongoDB database.</param>
+        /// <returns>The updated service collection.</returns>
         public static IServiceCollection AddBusinessLogicAndPersistence(
             this IServiceCollection services, 
             string sqlConnectionString, 

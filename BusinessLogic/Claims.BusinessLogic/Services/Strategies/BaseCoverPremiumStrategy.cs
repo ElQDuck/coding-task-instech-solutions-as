@@ -3,17 +3,26 @@ using Claims.BusinessLogic.Interfaces;
 
 namespace Claims.BusinessLogic.Services.Strategies;
 
+/// <summary>
+/// Provides a base implementation for premium calculation strategies.
+/// </summary>
 public class BaseCoverPremiumStrategy : ICoverPremiumStrategy
 {
+    /// <summary>
+    /// Initializes an instance of the <see cref="BaseCoverPremiumStrategy"/> class.
+    /// </summary>
+    /// <param name="supportedType">The cover type supported by this strategy.</param>
     public BaseCoverPremiumStrategy(CoverType supportedType)
     {
         SupportedType = supportedType;
     }
 
+    /// <inheritdoc/>
     public CoverType SupportedType { get; }
     protected virtual decimal Multiplier => 1.3m;
     private const decimal BaseRate = 1250m;
 
+    /// <inheritdoc/>
     public virtual decimal CalculatePremium(DateTime startDate, DateTime endDate)
     {
         // Calculating only full days
