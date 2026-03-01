@@ -1,7 +1,7 @@
 using Claims.BusinessLogic.Entities;
 using Claims.BusinessLogic.Interfaces;
 
-namespace Claims.BusinessLogic.Services;
+namespace Claims.BusinessLogic.Services.Strategies;
 
 public class DefaultDiscountProvider : IDiscountProvider
 {
@@ -9,19 +9,20 @@ public class DefaultDiscountProvider : IDiscountProvider
     {
         var discounts = new List<decimal>();
 
-        if (dayIndex < 30)
+        switch (dayIndex)
         {
-            discounts.Add(0m);
-        }
-
-        if (dayIndex < 180)
-        {
-            discounts.Add(type == CoverType.Yacht ? 0.05m : 0.02m);
-        }
-
-        if (dayIndex < 365)
-        {
-            discounts.Add(type == CoverType.Yacht ? 0.08m : 0.03m);
+            // First 30 days => no discount
+            case < 30:
+                discounts.Add(0m);
+                break;
+            // Following 150 days are discounted by 2%
+            case < 180:
+                discounts.Add(0.02m);
+                break;
+            // The remaining days are discounted by additional 1%
+            default:
+                discounts.Add(0.03m);
+                break;
         }
 
         return discounts;

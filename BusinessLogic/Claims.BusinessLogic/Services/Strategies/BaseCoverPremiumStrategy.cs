@@ -31,6 +31,8 @@ public class BaseCoverPremiumStrategy : ICoverPremiumStrategy
 
     protected virtual decimal GetDailyPremium(int dayIndex)
     {
+        // TODO: Was already set in origin code.
+        // Base day rate was set to be 1250.
         var premiumPerDay = 1250 * Multiplier;
         var discounts = _discountProvider.GetDiscounts(SupportedType, dayIndex);
         

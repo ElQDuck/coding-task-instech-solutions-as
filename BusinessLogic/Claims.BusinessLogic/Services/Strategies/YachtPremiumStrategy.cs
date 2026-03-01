@@ -8,6 +8,6 @@ namespace Claims.BusinessLogic.Services.Strategies;
 /// </summary>
 public class YachtPremiumStrategy : BaseCoverPremiumStrategy
 {
-    public YachtPremiumStrategy(IDiscountProvider discountProvider) : base(CoverType.Yacht, discountProvider) { }
+    public YachtPremiumStrategy(YachtDiscountProvider discountProvider) : base(CoverType.Yacht, discountProvider) { }
     protected override decimal Multiplier => 1.1m;
 }

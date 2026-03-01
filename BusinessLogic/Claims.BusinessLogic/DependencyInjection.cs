@@ -15,7 +15,10 @@ namespace Claims.BusinessLogic
             services.AddScoped<Interfaces.IClaimsService, Services.ClaimsService>();
             services.AddScoped<Interfaces.ICoversService, Services.CoversService>();
             services.AddScoped<Interfaces.IPremiumComputeService, Services.PremiumComputeService>();
-            services.AddScoped<Interfaces.IDiscountProvider, Services.DefaultDiscountProvider>();
+            
+            // Register Discount Calculation Strategies
+            services.AddScoped<Services.Strategies.YachtDiscountProvider>();
+            services.AddScoped<Interfaces.IDiscountProvider, Services.Strategies.DefaultDiscountProvider>();
 
             // Register Premium Calculation Strategies
             services.AddScoped<Interfaces.ICoverPremiumStrategy, Services.Strategies.YachtPremiumStrategy>();
