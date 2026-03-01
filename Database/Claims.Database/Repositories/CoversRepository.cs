@@ -38,7 +38,7 @@ namespace Claims.Database.Repositories
         {
             _context.Covers.Add(item);
             await _context.SaveChangesAsync();
-            _auditer.AuditCover(item.Id, "POST");
+            await _auditer.AuditCover(item.Id, "POST");
             return Result.FromSuccess(item);
         }
 
@@ -49,7 +49,7 @@ namespace Claims.Database.Repositories
             {
                 _context.Covers.Remove(result.Value);
                 await _context.SaveChangesAsync();
-                _auditer.AuditCover(id, "DELETE");
+                await _auditer.AuditCover(id, "DELETE");
                 return Result.FromSuccess();
             }
             return Result.FromException(new Exception($"Cover with id '{id}' could not be deleted."));

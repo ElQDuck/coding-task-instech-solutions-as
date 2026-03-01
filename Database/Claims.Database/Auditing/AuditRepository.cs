@@ -1,5 +1,7 @@
 using Claims.Database.Context;
 using Claims.Database.Entities;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Claims.Database.Auditing
 {
@@ -9,28 +11,35 @@ namespace Claims.Database.Auditing
     public class AuditRepository : IAuditRepository
     {
         private readonly AuditContext _auditContext;
+        private readonly ILogger<AuditRepository> _logger;
 
         /// <summary>
         /// Initializes an instance of the <see cref="AuditRepository"/> class.
         /// </summary>
         /// <param name="auditContext">The audit database context.</param>
-        public AuditRepository(AuditContext auditContext)
+        /// <param name="logger">The logger.</param>
+        public AuditRepository(AuditContext auditContext, ILogger<AuditRepository> logger)
         {
             _auditContext = auditContext;
+            _logger = logger;
         }
 
         /// <inheritdoc/>
-        public void AddClaimAudit(ClaimAudit audit)
+        public async Task AddClaimAuditAsync(ClaimAudit audit)
         {
+            _logger.LogDebug("AddClaimAuditAsync start");
             _auditContext.Add(audit);
-            _auditContext.SaveChanges();
+            await _auditContext.SaveChangesAsync();
+            _logger.LogDebug("AddClaimAuditAsync stop");
         }
 
         /// <inheritdoc/>
-        public void AddCoverAudit(CoverAudit audit)
+        public async Task AddCoverAuditAsync(CoverAudit audit)
         {
+            _logger.LogDebug("AddCoverAuditAsync start");
             _auditContext.Add(audit);
-            _auditContext.SaveChanges();
+            await _auditContext.SaveChangesAsync();
+            _logger.LogDebug("AddCoverAuditAsync stop");
         }
     }
 }

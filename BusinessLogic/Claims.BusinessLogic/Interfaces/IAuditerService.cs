@@ -10,12 +10,12 @@ public interface IAuditerService
     /// </summary>
     /// <param name="id">The ID of the claim.</param>
     /// <param name="httpRequestType">The type of HTTP request (e.g., POST, DELETE).</param>
-    void AuditClaim(string id, string httpRequestType);
+    Task AuditClaim(string id, string httpRequestType);
 
     /// <summary>
     /// Audits a cover operation.
     /// </summary>
     /// <param name="id">The ID of the cover.</param>
     /// <param name="httpRequestType">The type of HTTP request (e.g., POST, DELETE).</param>
-    void AuditCover(string id, string httpRequestType);
+    Task AuditCover(string id, string httpRequestType);
 }

@@ -24,7 +24,7 @@ namespace Claims.Database.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Audit Background Service is starting.");
+            _logger.LogInformation("Audit Background Service is starting IAuditChannel InstanceId={id}", _auditChannel.GetHashCode());
 
             await foreach (var message in _auditChannel.ReadAllAsync().WithCancellation(stoppingToken))
             {
@@ -43,16 +43,19 @@ namespace Claims.Database.Services
 
         private async Task ProcessAuditMessageAsync(object message)
         {
+            _logger.LogDebug("Audit Background Service ProcessAuditMessageAsync.");
             using var scope = _serviceProvider.CreateScope();
             var auditRepository = scope.ServiceProvider.GetRequiredService<IAuditRepository>();
 
             switch (message)
             {
                 case ClaimAudit claimAudit:
-                    auditRepository.AddClaimAudit(claimAudit);
+                    _logger.LogDebug("ClaimAudit.");
+                    await auditRepository.AddClaimAuditAsync(claimAudit);
                     break;
                 case CoverAudit coverAudit:
-                    auditRepository.AddCoverAudit(coverAudit);
+                    _logger.LogDebug("CoverAudit.");
+                    await auditRepository.AddCoverAuditAsync(coverAudit);
                     break;
             }
         }
