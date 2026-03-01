@@ -42,7 +42,7 @@ namespace Claims.BusinessLogic.Services
             const int maxDamageCost = 100000;
             if (claim.DamageCost > maxDamageCost)
             {
-                var error = new ArgumentException($"Damage cost must be less than {maxDamageCost}.");
+                var error = new ArgumentException(string.Format(Resources.ErrorMessages.E_DamageCostHigherThan, maxDamageCost));
                 return Result.FromException<Claim>(error);
             }
             claim.Id = Guid.NewGuid().ToString();

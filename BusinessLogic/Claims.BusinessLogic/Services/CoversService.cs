@@ -46,7 +46,7 @@ namespace Claims.BusinessLogic.Services
             // Make sure that EndDate is after StartDate (possible input error)
             if (cover.StartDate > cover.EndDate)
             {
-                var error = new ArgumentException("Start date cannot be after end date.");
+                var error = new ArgumentException(Resources.ErrorMessages.E_StartDateAfterEndDate);
                 return Result.FromException<Cover>(error);
             }
             
