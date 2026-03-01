@@ -5,26 +5,16 @@ namespace Claims.BusinessLogic.Services.Strategies;
 
 public class DefaultDiscountProvider : IDiscountProvider
 {
-    public IEnumerable<decimal> GetDiscounts(CoverType type, int dayIndex)
+    public decimal GetDiscountForDay(int dayIndex)
     {
-        var discounts = new List<decimal>();
-
-        switch (dayIndex)
+        return dayIndex switch
         {
-            // First 30 days => no discount
-            case < 30:
-                discounts.Add(0m);
-                break;
-            // Following 150 days are discounted by 2%
-            case < 180:
-                discounts.Add(0.02m);
-                break;
-            // The remaining days are discounted by additional 1%
-            default:
-                discounts.Add(0.03m);
-                break;
-        }
-
-        return discounts;
+            // First 30 days
+            < 30 => 0m,
+            // Following 150 days
+            < 180 => 0.02m,
+            // The remaining days 2% + 1%
+            _ => 0.03m
+        };
     }
 }

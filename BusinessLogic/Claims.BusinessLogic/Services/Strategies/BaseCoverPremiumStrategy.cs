@@ -15,33 +15,20 @@ public class BaseCoverPremiumStrategy : ICoverPremiumStrategy
 
     public CoverType SupportedType { get; }
     protected virtual decimal Multiplier => 1.3m;
+    private const decimal BaseRate = 1250m;
 
     public virtual decimal CalculatePremium(DateTime startDate, DateTime endDate)
     {
-        var insuranceLength = (endDate - startDate).TotalDays;
+        // Calculating only full days
+        var insuranceLengthTotalDays = (endDate.Date - startDate.Date).Days;
+        var dailyBase = BaseRate * Multiplier;
         var totalPremium = 0m;
 
-        for (var i = 0; i < insuranceLength; i++)
+        for (var i = 0; i < insuranceLengthTotalDays; i++)
         {
-            totalPremium += GetDailyPremium(i);
+            totalPremium += dailyBase * (1 - _discountProvider.GetDiscountForDay(i));
         }
 
         return totalPremium;
-    }
-
-    protected virtual decimal GetDailyPremium(int dayIndex)
-    {
-        // TODO: Was already set in origin code.
-        // Base day rate was set to be 1250.
-        var premiumPerDay = 1250 * Multiplier;
-        var discounts = _discountProvider.GetDiscounts(SupportedType, dayIndex);
-        
-        var dailyTotal = 0m;
-        foreach (var discount in discounts)
-        {
-            dailyTotal += premiumPerDay - (premiumPerDay * discount);
-        }
-
-        return dailyTotal;
     }
 }

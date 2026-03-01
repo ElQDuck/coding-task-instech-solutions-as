@@ -5,25 +5,16 @@ namespace Claims.BusinessLogic.Services.Strategies;
 
 public class YachtDiscountProvider : IDiscountProvider
 {
-    public IEnumerable<decimal> GetDiscounts(CoverType type, int dayIndex)
+    public decimal GetDiscountForDay(int dayIndex)
     {
-        var discounts = new List<decimal>();
-
-        if (dayIndex < 30)
+        return dayIndex switch
         {
-            discounts.Add(0m);
-        }
-
-        if (dayIndex < 180)
-        {
-            discounts.Add(0.05m);
-        }
-
-        if (dayIndex < 365)
-        {
-            discounts.Add(0.08m);
-        }
-
-        return discounts;
+            // First 30 days
+            < 30 => 0m,
+            // Following 150 days
+            < 180 => 0.05m,
+            // The remaining days 5% + 3%
+            _ => 0.08m
+        };
     }
 }

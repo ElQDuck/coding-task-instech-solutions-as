@@ -4,5 +4,5 @@ namespace Claims.BusinessLogic.Interfaces;
 
 public interface IDiscountProvider
 {
-    IEnumerable<decimal> GetDiscounts(CoverType type, int dayIndex);
+    decimal GetDiscountForDay(int dayIndex);
 }
