@@ -5,12 +5,9 @@ namespace Claims.BusinessLogic.Services.Strategies;
 
 public class BaseCoverPremiumStrategy : ICoverPremiumStrategy
 {
-    private readonly IDiscountProvider _discountProvider;
-
-    public BaseCoverPremiumStrategy(CoverType supportedType, IDiscountProvider discountProvider)
+    public BaseCoverPremiumStrategy(CoverType supportedType)
     {
         SupportedType = supportedType;
-        _discountProvider = discountProvider;
     }
 
     public CoverType SupportedType { get; }
@@ -31,9 +28,22 @@ public class BaseCoverPremiumStrategy : ICoverPremiumStrategy
 
         for (var i = 0; i < insuranceLengthTotalDays; i++)
         {
-            totalPremium += dailyBase * (1 - _discountProvider.GetDiscountForDay(i));
+            totalPremium += dailyBase * (1 - GetDiscountForDay(i));
         }
 
         return totalPremium;
+    }
+
+    protected virtual decimal GetDiscountForDay(int dayIndex)
+    {
+        return dayIndex switch
+        {
+            // First 30 days
+            < 30 => 0m,
+            // Following 150 days
+            < 180 => 0.02m,
+            // The remaining days 2% + 1%
+            _ => 0.03m
+        };
     }
 }

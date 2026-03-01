@@ -5,6 +5,6 @@ namespace Claims.BusinessLogic.Services.Strategies;
 
 public class TankerPremiumStrategy : BaseCoverPremiumStrategy
 {
-    public TankerPremiumStrategy(IDiscountProvider discountProvider) : base(CoverType.Tanker, discountProvider) { }
+    public TankerPremiumStrategy() : base(CoverType.Tanker) { }
     protected override decimal Multiplier => 1.5m;
 }

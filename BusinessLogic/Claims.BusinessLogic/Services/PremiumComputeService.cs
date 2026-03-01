@@ -7,20 +7,16 @@ namespace Claims.BusinessLogic.Services;
 public class PremiumComputeService : IPremiumComputeService
 {
     private readonly IEnumerable<ICoverPremiumStrategy> _strategies;
-    private readonly IDiscountProvider _discountProvider;
 
-    public PremiumComputeService(
-        IEnumerable<ICoverPremiumStrategy> strategies, 
-        IDiscountProvider discountProvider)
+    public PremiumComputeService(IEnumerable<ICoverPremiumStrategy> strategies)
     {
         _strategies = strategies;
-        _discountProvider = discountProvider;
     }
 
     public decimal ComputePremium(DateTime startDate, DateTime endDate, CoverType coverType)
     {
         var strategy = _strategies.FirstOrDefault(s => s.SupportedType == coverType) 
-                       ?? new BaseCoverPremiumStrategy(coverType, _discountProvider);
+                       ?? new BaseCoverPremiumStrategy(coverType);
         
         return strategy.CalculatePremium(startDate, endDate);
     }
