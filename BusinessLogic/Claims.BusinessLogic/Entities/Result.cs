@@ -17,6 +17,7 @@ public class Result<T>
     /// Initialize a new instance of <see cref="Result{T}"/>
     /// </summary>
     /// <param name="value"></param>
+    /// <typeparam name="T"></typeparam>
     protected internal Result(T value)
     {
         this._value = value;
@@ -26,6 +27,7 @@ public class Result<T>
     /// Initialize a new instance of <see cref="Result{T}"/>
     /// </summary>
     /// <param name="exception"></param>
+    /// <typeparam name="Exception"></typeparam>
     protected internal Result(Exception exception)
     {
         this.Exception = exception;

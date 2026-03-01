@@ -42,7 +42,7 @@ public class Result: Result<object?>
    }
    
    /// <summary>
-   /// Creates a non successful result from the operations exception.
+   /// Creates a non-successful result from the operation exception.
    /// </summary>
    /// <param name="exception"></param>
    /// <typeparam name="T"></typeparam>
@@ -53,10 +53,10 @@ public class Result: Result<object?>
    }
 
    /// <summary>
-   /// Creates a non successful result from an operation.
+   /// Creates a non-successful result from an operation.
    /// </summary>
    /// <param name="exception"></param>
-   /// <returns></returns>
+   /// <returns>The exception.</returns>
    public static Result FromException(Exception exception)
    {
       return new Result(exception);
