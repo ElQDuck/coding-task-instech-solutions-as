@@ -1,20 +1,8 @@
-# Read this first!
-This repository is a template repository for our technical interview, so create your own project using this guide:
+# Prerequisites & Used
 
-[GitHub - Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
-
-An alternative is to download the code and create a new repository using a different VCS provider (gitlab / Azure repos). **Do not fork this repository.**
-
-When you have completed the tasks, please share the repository link with us. We will review your submission before the interview.
-
-Good luck! 😊
-
-# Prerequisites
-
-- Your favourite IDE to code in C# 😊
-- _Optional_ - an Azure Subscription. You can demo this API by hosting it in Azure. If that is not an option for you, you can run the demo having a locally running instance. If you select a different cloud provider, that is fine for us.
-	- _This requires a rewrite of the setup (program.cs) of the application, as it currently depends on TestContainer packages to simplify the local development experience._
-- `Docker Desktop` or a different Docker deamon running on your machine.
+- JetBrains Rider as IDE mostly for learning purposes.
+- Will run the demo having a locally running instance.
+- `Docker Desktop`
 
 # Programming Task
 Complete the backend for a multi-tier application for Insurance Claims Handling.
@@ -49,9 +37,31 @@ Cover premium computation formula evolved over time. Fellow developers were lazy
 
 Desired logic: 
 * Premium depends on the type of the covered object and the length of the insurance period. 
-* Base day rate was set to be 1250.
-* Yacht should be 10% more expensive, Passenger ship 20%, Tanker 50%, and other types 30%
-* The length of the insurance period should influence the premium progressively:
-  * First 30 days are computed based on the logic above
-  * Following 150 days are discounted by 5% for Yacht and by 2% for other types
-  * The remaining days are discounted by additional 3% for Yacht and by 1% for other types
+
+## Implementation Summary
+
+- **Task 1 — Layering & SOLID**: Introduced a clear 3-layer architecture.
+  - Controllers: thin HTTP adapters in [API/Claims.API/Controllers](API/Claims.API/Controllers).
+  - Business logic: services, validation and policies in [BusinessLogic/Claims.BusinessLogic/Services](BusinessLogic/Claims.BusinessLogic/Services).
+  - Persistence/repositories: encapsulated in [Database/Claims.Database/Repositories](Database/Claims.Database/Repositories).
+
+- **Task 2 — Validation**: Implemented business-level validation rules.
+  - `DamageCost` cap and `Claim.Created` vs cover period: [BusinessLogic/Claims.BusinessLogic/Services/ClaimsService.cs](BusinessLogic/Claims.BusinessLogic/Services/ClaimsService.cs).
+  - `Cover.StartDate` not in past, EndDate after StartDate, and max 1-year duration: [BusinessLogic/Claims.BusinessLogic/Services/CoversService.cs](BusinessLogic/Claims.BusinessLogic/Services/CoversService.cs).
+  - Error messages centralised in: [BusinessLogic/Claims.BusinessLogic/Resources/ErrorMessages.resx](BusinessLogic/Claims.BusinessLogic/Resources/ErrorMessages.resx).
+
+- **Task 3 — Auditing (non-blocking)**: Implemented an in-memory, asynchronous audit pipeline.
+  - Producer (enqueue): `Database/Claims.Database/Services/AuditerService.cs` writes into `AuditChannel` (non-blocking enqueue).
+  - Channel: `Database/Claims.Database/Auditing/AuditChannel.cs` (uses System.Threading.Channels).
+  - Consumer: `Database/Claims.Database/Services/AuditBackgroundService.cs` processes messages in background and persists via `IAuditRepository`.
+  - Persistence: `Database/Claims.Database/Auditing/AuditRepository.cs` uses EF Core `SaveChangesAsync()`.
+
+- **Task 4 — Tests**: Added and extended unit tests.
+  - Business logic tests: [BusinessLogic/Claims.BusinessLogic.Tests](BusinessLogic/Claims.BusinessLogic.Tests) (claims, covers, premium compute).
+  - Database tests: [Database/Claims.Database.Tests](Database/Claims.Database.Tests) (audit channel, audit repository, db repository tests).
+  - API tests: [API/Claims.API.Tests](API/Claims.API.Tests) (controller-level tests).
+
+- **Task 5 — Premium computation**: Rewrote premium logic and provided strategies + tests.
+  - Strategy-based calculation: [BusinessLogic/Claims.BusinessLogic/Services/PremiumComputeService.cs](BusinessLogic/Claims.BusinessLogic/Services/PremiumComputeService.cs).
+  - Concrete strategies: [BusinessLogic/Claims.BusinessLogic/Services/Strategies](BusinessLogic/Claims.BusinessLogic/Services/Strategies) (Base, Yacht, PassengerShip, Tanker).
+  - Unit tests verifying progressive discounts and multipliers: [BusinessLogic/Claims.BusinessLogic.Tests/PremiumComputeServiceTests.cs](BusinessLogic/Claims.BusinessLogic.Tests/PremiumComputeServiceTests.cs).
