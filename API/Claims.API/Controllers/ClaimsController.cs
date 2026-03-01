@@ -2,6 +2,7 @@ using Claims.BusinessLogic.Entities;
 using Claims.BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
+// 
 namespace Claims.API.Controllers
 {
     [ApiController]

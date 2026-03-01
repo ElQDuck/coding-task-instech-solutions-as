@@ -52,6 +52,8 @@ public class CoversController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Cover))]
     public async Task<ActionResult> CreateCoverAsync(Cover cover)
     {
+        // TODO: Hide ID from user because its set by BusinessLogic (QoL improvements)
+        // TODO: why should the user set the premium if all information is provided to calculate it automatically (QoL improvements)
         var result = await _coversService.CreateCoverAsync(cover);
         result.EnsureSuccess();
         return Ok(result.Value);

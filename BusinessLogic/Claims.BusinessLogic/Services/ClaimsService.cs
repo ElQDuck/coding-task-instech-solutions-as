@@ -14,6 +14,7 @@ namespace Claims.BusinessLogic.Services
             _coversService = coversService;
         }
 
+        /// <inheritdoc/>
         public async Task<Result<IEnumerable<Claim>>> GetClaimsAsync()
         {
             return await _claimsRepository.GetClaimsAsync();
