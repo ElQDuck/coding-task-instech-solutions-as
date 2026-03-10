@@ -37,6 +37,7 @@ Suggested example prompts
 - "List all public methods in `BusinessLogic/Claims.BusinessLogic/Services` and suggest any obvious API-surface reductions."
 - "Add XML/OpenAPI annotations to `API/Claims.API/Controllers/ClaimsController.cs` for the Create and Get endpoints."
 - "Search for blocking IO in `Database/Claims.Database/Services` and propose async replacements."
+- "Run `dotnet build Claims.sln -c Debug` and resolve any build errors and warnings."
 
 
 If something is unclear, ask for the preferred CI pipeline, DB access method for integration tests, and commit conventions.
