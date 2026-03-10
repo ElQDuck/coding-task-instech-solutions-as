@@ -38,7 +38,7 @@ namespace Claims.Database.Repositories
         {
             _context.Claims.Add(item);
             await _context.SaveChangesAsync();
-            _auditer.AuditClaim(item.Id, "POST");
+            await _auditer.AuditClaim(item.Id, "POST");
             return Result.FromSuccess(item);
         }
 
@@ -49,7 +49,7 @@ namespace Claims.Database.Repositories
             {
                 _context.Claims.Remove(result.Value);
                 await _context.SaveChangesAsync();
-                _auditer.AuditClaim(id, "DELETE");
+                await _auditer.AuditClaim(id, "DELETE");
                 return Result.FromSuccess();
             }
             return Result.FromException(new Exception($"Claim with id '{id}' could not be deleted."));

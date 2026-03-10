@@ -13,14 +13,14 @@ namespace Claims.BusinessLogic.Entities
         /// </summary>
         /// TODO: Probably make this invisible to user.
         [BsonId]
-        public string Id { get; set; }
+        public required string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the cover associated with this claim.
         /// </summary>
         /// TODO: Make this field required.
         [BsonElement("coverId")]
-        public string CoverId { get; set; }
+        public required string CoverId { get; set; }
 
         /// <summary>
         /// Gets or sets the creation date of the claim.
@@ -32,7 +32,7 @@ namespace Claims.BusinessLogic.Entities
         /// Gets or sets the name of the claim.
         /// </summary>
         [BsonElement("name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the claim.

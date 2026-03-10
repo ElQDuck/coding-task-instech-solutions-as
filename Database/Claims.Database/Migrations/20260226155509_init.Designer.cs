@@ -14,7 +14,7 @@ namespace Claims.Database.Migrations
 {
     [DbContext(typeof(AuditContext))]
     [Migration("20260226155509_init")]
-    partial class init
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

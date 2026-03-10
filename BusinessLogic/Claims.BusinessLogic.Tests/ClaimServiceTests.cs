@@ -9,9 +9,9 @@ namespace Claims.BusinessLogic.Tests;
 [Category("UnitTests")]
 public class ClaimServiceTests
 {
-    private IClaimsRepository _repo;
-    private ICoversService _coversService;
-    private ClaimsService _svc;
+    private IClaimsRepository _repo = null!;
+    private ICoversService _coversService = null!;
+    private ClaimsService _svc = null!;
 
     [SetUp]
     public void Setup()
@@ -25,7 +25,7 @@ public class ClaimServiceTests
     public async Task CreateClaimAsync_Success()
     {
         var cover = new Cover { Id = "cov1", StartDate = DateTime.UtcNow.AddDays(-1), EndDate = DateTime.UtcNow.AddDays(10) };
-        var claim = new Claim { CoverId = "cov1", Created = DateTime.UtcNow, DamageCost = 10 };
+        var claim = new Claim { Id = "cl1", CoverId = "cov1", Name = "test", Created = DateTime.UtcNow, DamageCost = 10 };
 
         _coversService.GetCoverAsync("cov1").Returns(Task.FromResult(Result.FromSuccess(cover)));
         _repo.AddClaimAsync(Arg.Any<Claim>()).Returns(Task.FromResult(Result.FromSuccess(claim)));
@@ -40,7 +40,7 @@ public class ClaimServiceTests
     public async Task CreateClaimAsync_Fails_WhenDamageTooHigh()
     {
         var cover = new Cover { Id = "cov1", StartDate = DateTime.UtcNow.AddDays(-1), EndDate = DateTime.UtcNow.AddDays(10) };
-        var claim = new Claim { CoverId = "cov1", Created = DateTime.UtcNow, DamageCost = 200000 };
+        var claim = new Claim { Id = "cl2", CoverId = "cov1", Name = "test", Created = DateTime.UtcNow, DamageCost = 200000 };
 
         _coversService.GetCoverAsync("cov1").Returns(Task.FromResult(Result.FromSuccess(cover)));
 
@@ -53,7 +53,7 @@ public class ClaimServiceTests
     public async Task CreateClaimAsync_Fails_WhenCreatedOutsideCoverPeriod()
     {
         var cover = new Cover { Id = "cov1", StartDate = DateTime.UtcNow.AddDays(5), EndDate = DateTime.UtcNow.AddDays(10) };
-        var claim = new Claim { CoverId = "cov1", Created = DateTime.UtcNow, DamageCost = 10 };
+        var claim = new Claim { Id = "cl3", CoverId = "cov1", Name = "test", Created = DateTime.UtcNow, DamageCost = 10 };
 
         _coversService.GetCoverAsync("cov1").Returns(Task.FromResult(Result.FromSuccess(cover)));
 

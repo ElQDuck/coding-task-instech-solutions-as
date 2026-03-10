@@ -16,10 +16,10 @@ namespace Claims.Tests
     [Category("UnitTests")]
     public class CoversControllerTests
     {
-        private ILogger<CoversController> _loggerMock;
-        private IPremiumComputeService _premiumComputeServiceMock;
-        private ICoversService _coversServiceMock;
-        private CoversController _testee;
+        private ILogger<CoversController> _loggerMock = null!;
+        private IPremiumComputeService _premiumComputeServiceMock = null!;
+        private ICoversService _coversServiceMock = null!;
+        private CoversController _testee = null!;
         
         [SetUp]
         public void Setup()

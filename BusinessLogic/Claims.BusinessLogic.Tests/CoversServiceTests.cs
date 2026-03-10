@@ -9,9 +9,9 @@ namespace Claims.BusinessLogic.Tests;
 [Category("UnitTests")]
 public class CoversServiceTests
 {
-    private ICoversRepository _repo;
-    private IPremiumComputeService _premium;
-    private CoversService _svc;
+    private ICoversRepository _repo = null!;
+    private IPremiumComputeService _premium = null!;
+    private CoversService _svc = null!;
 
     [SetUp]
     public void Setup()
@@ -36,6 +36,7 @@ public class CoversServiceTests
     {
         var cover = new Cover
         {
+            Id = "cov-success",
             StartDate = DateTime.UtcNow.AddMinutes(1),
             EndDate = DateTime.UtcNow.AddMinutes(1).AddDays(10),
             Type = CoverType.Tanker
@@ -53,7 +54,7 @@ public class CoversServiceTests
     [Test]
     public async Task CreateCoverAsync_Fails_WhenStartDateInPast()
     {
-        var cover = new Cover { StartDate = DateTime.UtcNow.AddDays(-1), EndDate = DateTime.UtcNow.AddDays(1) };
+        var cover = new Cover { Id = "cov-past", StartDate = DateTime.UtcNow.AddDays(-1), EndDate = DateTime.UtcNow.AddDays(1) };
 
         var result = await _svc.CreateCoverAsync(cover);
 
@@ -63,7 +64,7 @@ public class CoversServiceTests
     [Test]
     public async Task CreateCoverAsync_Fails_WhenEndDateExceedsOneYear()
     {
-        var cover = new Cover { StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddYears(2) };
+        var cover = new Cover { Id = "cov-too-long", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddYears(2) };
 
         var result = await _svc.CreateCoverAsync(cover);
 
@@ -73,7 +74,7 @@ public class CoversServiceTests
     [Test]
     public async Task CreateCoverAsync_Fails_WhenStartAfterEnd()
     {
-        var cover = new Cover { StartDate = DateTime.UtcNow.AddDays(5), EndDate = DateTime.UtcNow };
+        var cover = new Cover { Id = "cov-bad", StartDate = DateTime.UtcNow.AddDays(5), EndDate = DateTime.UtcNow };
 
         var result = await _svc.CreateCoverAsync(cover);
 

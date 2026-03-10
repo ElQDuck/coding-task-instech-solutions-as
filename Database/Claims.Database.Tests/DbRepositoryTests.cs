@@ -13,8 +13,8 @@ namespace Claims.Database.Tests;
 [Category("UnitTests")]
 public class DbRepositoryTests
 {
-    private DbContextOptions<AuditContext> _auditOptions;
-    private DbContextOptions<Claims.Database.Context.DbContext> _options;
+    private DbContextOptions<AuditContext> _auditOptions = null!;
+    private DbContextOptions<Claims.Database.Context.DbContext> _options = null!;
 
     [SetUp]
     public void Setup()

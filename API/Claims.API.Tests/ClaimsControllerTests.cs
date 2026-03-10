@@ -12,9 +12,9 @@ namespace Claims.Tests
     [Category("UnitTests")]
     public class ClaimsControllerTests
     {
-        private ILogger<ClaimsController> _loggerMock;
-        private IClaimsService _claimsServiceMock;
-        private ClaimsController _testee;
+        private ILogger<ClaimsController> _loggerMock = null!;
+        private IClaimsService _claimsServiceMock = null!;
+        private ClaimsController _testee = null!;
 
         [SetUp]
         public void Setup()
@@ -49,7 +49,7 @@ namespace Claims.Tests
         public async Task ClaimsController_GetClaimAsync_Success()
         {
             // Prepare
-            var claim = new Claim { Id = "c1" };
+            var claim = new Claim { Id = "c1", CoverId = "c1", Name = "n" };
             _claimsServiceMock.GetClaimAsync("c1").Returns(Task.FromResult(Result.FromSuccess(claim)));
 
             // Act
@@ -67,7 +67,7 @@ namespace Claims.Tests
         public async Task ClaimsController_CreateClaimAsync_Success()
         {
             // Prepare
-            var claim = new Claim { Id = "create-1" };
+            var claim = new Claim { Id = "create-1", CoverId = "create-1", Name = "n" };
             _claimsServiceMock.CreateClaimAsync(claim).Returns(Task.FromResult(Result.FromSuccess(claim)));
 
             // Act

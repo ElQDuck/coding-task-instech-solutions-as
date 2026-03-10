@@ -11,7 +11,7 @@ public class Cover
     /// Gets or sets the ID of the cover.
     /// </summary>
     [BsonId]
-    public string Id { get; set; }
+    public required string Id { get; set; }
 
     /// <summary>
     /// Gets or sets the start date of the cover.
