@@ -38,10 +38,6 @@ Suggested example prompts
 - "Add XML/OpenAPI annotations to `API/Claims.API/Controllers/ClaimsController.cs` for the Create and Get endpoints."
 - "Search for blocking IO in `Database/Claims.Database/Services` and propose async replacements."
 
-Recommended next customizations
-------------------------------
-- Add `AGENTS.md` describing agent roles (code-reviewer, test-writer, migrator) and `applyTo` patterns per folder.
-- Add a small `docs/ai-prompts.md` with curated example prompts and expected outputs for common tasks.
 
 If something is unclear, ask for the preferred CI pipeline, DB access method for integration tests, and commit conventions.
 
