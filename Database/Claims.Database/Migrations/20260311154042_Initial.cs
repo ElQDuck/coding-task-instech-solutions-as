@@ -5,7 +5,7 @@
 namespace Claims.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class refactor1 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -25,11 +25,6 @@ namespace Claims.Database.Auditing
         /// <inheritdoc/>
         public ValueTask SendAsync(object auditMessage)
         {
-            if (auditMessage == null)
-            {
-                throw new ArgumentNullException(nameof(auditMessage));
-            }
-
             _logger.LogDebug("AuditChannel.SendAsync called. InstanceId={id} MessageType={type}", this.GetHashCode(), auditMessage.GetType().FullName);
             return _channel.Writer.WriteAsync(auditMessage);
         }

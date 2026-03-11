@@ -1,5 +1,6 @@
 ﻿using Claims.Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Claims.Database.Context
 {
@@ -19,5 +20,17 @@ namespace Claims.Database.Context
         public DbSet<ClaimAudit> ClaimAudits { get; set; }
         /// <summary>Gets or sets the set of cover audits.</summary>
         public DbSet<CoverAudit> CoverAudits { get; set; }
+    }
+    
+    public class AuditContextFactory : IDesignTimeDbContextFactory<AuditContext>
+    {
+        public AuditContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<AuditContext>();
+            // Use a dummy connection string; it just needs to know the provider (SQL Server)
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ClaimsAudit;Trusted_Connection=True;");
+
+            return new AuditContext(optionsBuilder.Options);
+        }
     }
 }

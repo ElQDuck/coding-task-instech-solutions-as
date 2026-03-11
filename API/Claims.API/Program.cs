@@ -2,13 +2,17 @@
 // The main entry point for the Claims API.
 // This file sets up the WebApplication, configures services, and initializes the HTTP request pipeline.
 // </summary>
+
+using System.Diagnostics;
 using Claims.API.Controllers;
 using Claims.BusinessLogic;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
+using Claims.BusinessLogic.Entities;
 using Testcontainers.MongoDb;
 using Testcontainers.MsSql;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -16,9 +20,16 @@ using Microsoft.Extensions.Logging;
 var builder = WebApplication.CreateBuilder(args);
 
 // Start Testcontainers for SQL Server and MongoDB
-var sqlContainer = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest").Build();
+var sqlContainer = (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+        ? new MsSqlBuilder()
+            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+        : new()
 
-var mongoContainer = new MongoDbBuilder("mongo:latest").Build();
+    ).Build();
+
+var mongoContainer = new MongoDbBuilder()
+    .WithImage("mongo:latest")
+    .Build();
 
 await sqlContainer.StartAsync();
 await mongoContainer.StartAsync();
@@ -42,6 +53,20 @@ builder.Services.AddBusinessLogicAndPersistence(sqlConnectionString, mongoConnec
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Provide detailed information if a request fails. (ref: https://www.rfc-editor.org/rfc/rfc9457.html)
+// Credits: Nick Chapsas -> https://www.youtube.com/watch?v=-TGZypSinpw
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = context =>
+    {
+        context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+        context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+        var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+        context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
+    };
+});
+builder.Services.AddExceptionHandler<ResultExceptionHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,6 +75,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
