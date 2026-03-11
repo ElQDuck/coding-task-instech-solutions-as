@@ -31,7 +31,7 @@ namespace Claims.Database.Repositories
             {
                 return Result.FromSuccess(result);
             }
-            return Result.FromException<Cover>(new Exception($"Cover with id '{id}' not found"));
+            return Result.FromException<Cover>(new ResultException("Not found", $"Cover with id '{id}' not found"));
         }
 
         public async Task<Result<Cover>> AddCoverAsync(Cover item)
@@ -52,7 +52,7 @@ namespace Claims.Database.Repositories
                 await _auditer.AuditCover(id, "DELETE");
                 return Result.FromSuccess();
             }
-            return Result.FromException(new Exception($"Cover with id '{id}' could not be deleted."));
+            return Result.FromException(new ResultException("Not found", $"Cover with id '{id}' could not be deleted."));
         }
     }
 }

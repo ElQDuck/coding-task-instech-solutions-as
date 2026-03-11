@@ -31,7 +31,7 @@ namespace Claims.Database.Repositories
             {
                 return Result.FromSuccess(result);
             }
-            return Result.FromException<Claim>(new Exception($"Claim with id '{id}' not found"));
+            return Result.FromException<Claim>(new ResultException("Not found", $"Claim with id '{id}' not found"));
         }
 
         public async Task<Result<Claim>> AddClaimAsync(Claim item)
@@ -52,7 +52,7 @@ namespace Claims.Database.Repositories
                 await _auditer.AuditClaim(id, "DELETE");
                 return Result.FromSuccess();
             }
-            return Result.FromException(new Exception($"Claim with id '{id}' could not be deleted."));
+            return Result.FromException(new ResultException("Not found", $"Claim with id '{id}' could not be deleted."));
         }
     }
 }

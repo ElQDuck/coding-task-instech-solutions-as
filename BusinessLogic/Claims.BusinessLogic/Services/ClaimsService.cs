@@ -44,7 +44,7 @@ namespace Claims.BusinessLogic.Services
             var cover = coverResult.Value;
             if (claim.Created < cover.StartDate || claim.Created > cover.EndDate)
             {
-                var error = new ArgumentException(Resources.ErrorMessages.E_ClaimDateOutsideCoverPeriod);
+                var error = new ResultException("Wrong date", Resources.ErrorMessages.E_ClaimDateOutsideCoverPeriod);
                 return Result.FromException<Claim>(error);
             }
 
@@ -52,7 +52,7 @@ namespace Claims.BusinessLogic.Services
             const int maxDamageCost = 100000;
             if (claim.DamageCost > maxDamageCost)
             {
-                var error = new ArgumentException(string.Format(Resources.ErrorMessages.E_DamageCostHigherThan, maxDamageCost));
+                var error = new ResultException("Value error", string.Format(Resources.ErrorMessages.E_DamageCostHigherThan, maxDamageCost));
                 return Result.FromException<Claim>(error);
             }
             claim.Id = Guid.NewGuid().ToString();

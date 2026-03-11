@@ -8,6 +8,7 @@ public class ResultException: Exception
 
     public ResultException(string error, string message) : base(message)
     {
+        // TODO add property status code e.g. StatusCodes.Status400BadRequest,
         Error = error;
         Message = message;
     }

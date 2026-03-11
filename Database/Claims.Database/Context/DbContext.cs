@@ -66,7 +66,7 @@ namespace Claims.Database.Context
                 return Result.FromSuccess(result);
                 
             }
-            var exception = new Exception($"Claim with id '{id}' not found");
+            var exception = new ResultException("Not found", $"Claim with id '{id}' not found");
             return Result.FromException<Claim>(exception);
         }
 
@@ -85,7 +85,7 @@ namespace Claims.Database.Context
                 return Result.FromSuccess(result);
                 
             }
-            var exception = new Exception($"Cover with id '{id}' not found");
+            var exception = new ResultException("Not found", $"Cover with id '{id}' not found");
             return Result.FromException<Cover>(exception);
         }
 
@@ -128,7 +128,7 @@ namespace Claims.Database.Context
                 await SaveChangesAsync();
                 return Result.FromSuccess();
             }
-            var exception = new Exception($"Claim with id '{id}' could not be deleted.");
+            var exception = new ResultException("Not found", $"Claim with id '{id}' could not be deleted.");
             return Result.FromException(exception);
         }
 
@@ -147,7 +147,7 @@ namespace Claims.Database.Context
                 await SaveChangesAsync();
                 return Result.FromSuccess();
             }
-            var exception = new Exception($"Cover with id '{id}' could not be deleted.");
+            var exception = new ResultException("Not found", $"Cover with id '{id}' could not be deleted.");
             return Result.FromException(exception);
         }
     }

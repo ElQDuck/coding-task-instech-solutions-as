@@ -20,6 +20,7 @@ public class ResultExceptionHandler: IExceptionHandler
             return true;
         }
 
+        // TODO get StatusCodes from exception
         var exceptionDetails = new ProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,

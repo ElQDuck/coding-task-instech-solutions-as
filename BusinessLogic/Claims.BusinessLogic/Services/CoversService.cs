@@ -40,7 +40,7 @@ namespace Claims.BusinessLogic.Services
             // StartDate cannot be in the past
             if (cover.StartDate < DateTime.UtcNow)
             {
-                var error = new ArgumentException(Resources.ErrorMessages.E_StartDateInThePast);
+                var error = new ResultException("Wrong date", Resources.ErrorMessages.E_StartDateInThePast);
                 return Result.FromException<Cover>(error);
             }
             
@@ -50,14 +50,14 @@ namespace Claims.BusinessLogic.Services
             var endTime = cover.EndDate.Date;
             if (endTime > startTime.AddYears(1))
             {
-                var error = new ArgumentException(Resources.ErrorMessages.E_EnsurancePeriorExeedsOneYear);
+                var error = new ResultException("Insurance period error", Resources.ErrorMessages.E_EnsurancePeriorExeedsOneYear);
                 return Result.FromException<Cover>(error);
             }
             
             // Make sure that EndDate is after StartDate (possible input error)
             if (cover.StartDate > cover.EndDate)
             {
-                var error = new ArgumentException(Resources.ErrorMessages.E_StartDateAfterEndDate);
+                var error = new ResultException("Date error", Resources.ErrorMessages.E_StartDateAfterEndDate);
                 return Result.FromException<Cover>(error);
             }
             
